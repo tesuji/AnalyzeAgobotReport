@@ -1,0 +1,156 @@
+% SEE MORE : https://en.wikibooks.org/wiki/LaTeX/Document_Structure
+\documentclass[12pt,a4paper,fleqn]{report}
+\usepackage[top=3cm, bottom=3.5cm, left=3.5cm, right=2cm] {geometry} % Canh lề trang
+\usepackage[utf8]{vietnam}
+%% Useful packages
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{times} % Chọn font Time New Romans
+\usepackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
+% \usepackage{array} % Tạo bảng array
+% \usepackage{enumitem} % Cho phép thay đổi kí hiệu của listfont Time New Romans
+
+\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
+% \usepackage{subfiles} % Chèn các file nhỏ, giúp chia các chapter ra nhiều file hơn
+\usepackage{chngcntr} % Dùng để thiết lập lại cách đánh số caption,..
+
+% \usepackage{multirow} % Merge cells
+
+%\usepackage[natbib,backend=biber,style=ieee]{biblatex} % Giúp chèn tài liệu tham khảo
+
+%% For commenting out slow-rendering
+\usepackage{comment}
+
+%% where is your images
+\graphicspath{ {figures/} }
+
+\usepackage[
+  % nonumberlist,
+  % nopostdot,
+  % nogroupskip
+]{glossaries}
+
+\usepackage{glossary-superragged}
+\setglossarystyle{superraggedheaderborder}
+\usepackage{setspace}
+\usepackage{parskip}
+
+% \usepackage{showframe}
+
+\usepackage{fancyhdr} % Cho phép tùy biến header và footer
+% \usepackage{fancybox} % Tạo khung box
+\pagestyle{fancy}
+
+% \fancyhf{}
+\rhead{\footnotesize\nouppercase\rightmark} % Bên phải header: tên section
+\lhead{\footnotesize\nouppercase\leftmark} % Bên trái header: tên chapter
+\cfoot{\footnotesize\thepage} % Giữa footer: số trang
+
+\def \TITLE{Phân tích biến thể Botnet Agobot}
+\def \AUTHOR{Trần Cao Pháp, Nguyễn Nhật Tân}
+\def \SUBJECT{Analyze Agobot Botnet variants}
+
+\newcommand{\titlesize}{\fontsize{18pt}{23pt}\selectfont}
+\newcommand{\subtitlesize}{\fontsize{16pt}{21pt}\selectfont}
+\titleclass{\part}{top}
+\titleformat{\part}[display]
+  {\normalfont\huge\bfseries}{\centering}{20pt}{\Huge\centering}
+\titlespacing{\part}{0pt}{2em}{1em}
+\titlespacing{\section}{0pt}{\parskip}{0.5\parskip}
+\titlespacing{\subsection}{0pt}{\parskip}{0.5\parskip}
+\titlespacing{\subsubsection}{0pt}{\parskip}{0.5\parskip}
+
+\title{\bf \TITLE}
+\author{\AUTHOR}
+
+\usepackage[
+  %colorlinks=true,
+  %allcolors=red,
+  unicode
+]{hyperref}
+
+\hypersetup{
+  pdftoolbar=true,        % show Acrobat’s toolbar?
+  pdfmenubar=true,        % show Acrobat’s menu?
+  pdffitwindow=false,     % window fit to page when opened
+  pdfstartview={FitH},    % fits the width of the page to the window
+  pdftitle={\TITLE},    % title
+  pdfauthor={\AUTHOR},     % author
+  pdfsubject={\SUBJECT},   % subject of the document
+  %pdfcreator={\AUTHOR},   % creator of the document
+  %pdfproducer={\AUTHOR}, % producer of the document
+  pdfkeywords={Agobot} {Phatbot} {Gaobot} {IRC bot} {Botnet} {Malwares}, % list of keywords
+  pdfnewwindow=true,      % links in new window
+  colorlinks=false,       % false: boxed links; true: colored links
+  % linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+  citecolor=green,        % color of links to bibliography
+  filecolor=magenta,      % color of file links
+  urlcolor=cyan           % color of external links
+}
+\usepackage[]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
+
+%% French Dimensions
+%% -----------------
+% \textheight 230mm
+% \textwidth 168mm
+% \topmargin -10.3mm
+% \evensidemargin -5.4mm
+% \oddsidemargin -5.4mm
+
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\mathindent}{0cm}
+% Paragraph Indentation
+\setlength{\parindent}{0pt}
+\everymath{\displaystyle}
+
+\begin{document}
+  % \begin{comment}
+  \newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+  \input{./cover.tex}
+  \restoregeometry
+  % \end{comment}
+
+  \pagenumbering{roman}
+
+  \setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
+  \setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
+
+  \pagestyle{empty} % Header và footer rỗng
+
+  \cleardoublepage
+  \phantomsection
+  % \addcontentsline{toc}{chapter}{Contents}
+  \pdfbookmark{\contentsname}{toc}
+  \tableofcontents % Mục lục
+  % \addcontentsline{toc}{chapter}{\contentsname}
+  % \addcontentsline{toc}{chapter}{List of Figures}
+  \listoffigures % Danh sách các hình ảnh
+  \listoftables % Danh sách bảng biểu
+
+
+  \glsaddall
+  \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
+  \renewcommand*{\acronymname}{Danh sách từ viết tắt}
+  \renewcommand*{\entryname}{Tiếng Anh}
+  \renewcommand*{\descriptionname}{Tiếng Việt}
+  \printglossaries
+
+  \pagenumbering{arabic}
+  \chapter*{Introduction}
+  This chapter's content...
+
+  \section{Structure}
+  This section's content...
+
+  \subsection{Top Matter}
+  This subsection's content...
+
+  \subsubsection{Article Information}
+  This subsubsection's content...
+
+
+\end{document}

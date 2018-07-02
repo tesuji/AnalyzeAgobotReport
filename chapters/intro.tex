@@ -1,0 +1,45 @@
+\documentclass[../main-report.tex]{subfiles}
+
+\begin{document}
+\part*{TÓM TẮT ĐỒ ÁN}
+\addcontentsline{toc}{chapter}{TÓM TẮT ĐỒ ÁN}
+Trong đồ án này, chúng tôi trình bày việc ứng dụng máy học (\Gls{ml}) vào phân tích và phát hiện các luồng traffic bất thường.
+Việc phân tích chủ yếu tập trung vào các HTTP Request trên tập dữ liệu CSIC 2010 qua việc áp dụng thuật toán Cây quyết định (Decision Tree).
+
+Nội dung gồm 2 phần chính:
+
+\begin{itemize}
+\item \textbf{Cơ sở lý thuyết} - giới thiệu lý thuyết toán học liên quan. Sau đó giới thiệu sơ lược về máy học, các khái niệm và phân loại. Tiếp theo phân tích thuật toán cây quyết định và giới thiệu một số lỗ hổng bảo mật web phổ biến.
+\item \textbf{Hướng tiếp cận và thực nghiệm} - phần này trình bày thực nghiệm và kết quả đạt được.
+\end{itemize}
+
+\newpage
+\part*{MỞ ĐẦU}
+\addcontentsline{toc}{chapter}{MỞ ĐẦU}
+\section*{Lý do chọn đề tài}
+Nhiều ứng dụng web ngày nay gặp phải vấn đề bảo mật do các nhà phát triển ứng dụng web muốn tạo ra sản phẩm nhanh, không quan tâm cũng như hạn chế về kiến thức liên quan đến bảo mật. Để khắc phục vấn đề này, nhà phát triển web cần tìm ra một công cụ để giảm thiểu rủi ro bảo mật. Phát hiện xâm nhập là một công cụ mạnh mẽ để nhận diện và ngăn chặn tấn công hệ thống. Hầu hết những công nghệ phát hiện xâm nhập hệ thống web hiện nay không có khả năng giải quyết các tấn công web phức tạp, những kiểu tấn công mới chưa từng biết trước đó.
+
+Tuy nhiên, với việc áp dụng máy học có thể xây dựng những mô hình giúp phát hiện những kiểu tấn công đã biết hoặc chưa biết. Như đã biết, machine learning gây nên cơn sốt công nghệ trên toàn thế giới trong vài năm nay. Trong giới học thuật, mỗi năm có hàng ngàn bài báo khoa học về đề tài này. Trong giới công nghiệp, từ các công ty lớn như Google, Facebook, Microsoft đến các công ty khởi nghiệp đều đầu tư vào machine learning. Hàng loạt các ứng dụng sử dụng machine learning ra đời trên mọi lĩnh vực của cuộc sống, từ khoa học máy tính đến những ngành ít liên quan hơn như vật lý, hóa học, y học, chính trị.
+
+Chính vì những điều trên đã thôi thúc chúng tôi sử dụng máy học trong lĩnh vực phát hiện tấn công web.
+
+\section*{Mục đích thực hiện đề tài}
+Khi thực hiện đề tài, nhóm chúng tôi mong muốn được tiếp cận nghiên cứu và tìm hiểu về lĩnh vực máy học. Và từ đó vận dụng vào ngành đang học - An toàn thông tin.
+
+Hai mục tiêu hướng đến là:
+
+\begin{itemize}
+\item Thứ nhất, sẽ có kiến thức cơ bản về máy học và lý thuyết liên quan.
+\item Thứ hai, tìm hiểu và chọn được một thuật toán để vận dụng phân tích một tập dữ liệu cho trước để nhận diện luồng traffic bình thường và bất thường.
+\end{itemize}
+
+\section*{Đối tượng và phạm vi nghiên cứu của đề tài}
+Đối tượng và phạm vi nghiên cứu tập trung vào hai điểm chính:
+
+\begin{itemize}
+\item \textbf{Tập dữ liệu được sử dụng để training} - chọn tập dữ liệu \textbf{HTTP DATASET CSIC 2010}.
+\item \textbf{Thuật toán được sử dụng} - cây quyết định.
+\end{itemize}
+
+Trong phạm vi của đồ án, nhóm tác giả chỉ tập trung vào việc phân tích \textbf{Request Line} và \textbf{Request Body} trong các gói tin HTTP Request.
+\end{document}
