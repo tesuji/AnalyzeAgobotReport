@@ -68,8 +68,8 @@
 \author{\AUTHOR}
 
 \usepackage[
-  %colorlinks=true,
-  %allcolors=red,
+  % colorlinks=true,
+  % allcolors=red,
   unicode
 ]{hyperref}
 
@@ -85,13 +85,15 @@
   %pdfproducer={\AUTHOR}, % producer of the document
   pdfkeywords={Agobot} {Phatbot} {Gaobot} {IRC bot} {Botnet} {Malwares}, % list of keywords
   pdfnewwindow=true,      % links in new window
-  colorlinks=false,       % false: boxed links; true: colored links
-  % linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+  colorlinks=true,       % false: boxed links; true: colored links
+  linkcolor=red,          % color of internal links (change box color with linkbordercolor)
   citecolor=green,        % color of links to bibliography
   filecolor=magenta,      % color of file links
   urlcolor=cyan           % color of external links
 }
-\usepackage[]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
+\usepackage[
+%  all
+]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
 
 %% French Dimensions
 %% -----------------
@@ -120,9 +122,13 @@
   \setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
 
   \pagestyle{empty} % Header và footer rỗng
-
+{
   \cleardoublepage
   \phantomsection
+  \hypersetup{
+    linkcolor=black,
+    % linktoc=none% <- no links in ToC
+  }
   % \addcontentsline{toc}{chapter}{Contents}
   \pdfbookmark{\contentsname}{toc}
   \tableofcontents % Mục lục
@@ -130,7 +136,7 @@
   % \addcontentsline{toc}{chapter}{List of Figures}
   \listoffigures % Danh sách các hình ảnh
   \listoftables % Danh sách bảng biểu
-
+}
 
   \glsaddall
   \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
