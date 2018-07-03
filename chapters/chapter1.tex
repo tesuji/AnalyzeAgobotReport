@@ -15,11 +15,39 @@
 \section{Cấu trúc mã nguồn}
 
 Cấu trúc mã nguồn đề cập đến các đặc điểm thiết kế và cài đặt của mã bot.
+Agobot bao gồm 20.000 dòng C++ với tính tương thích trên nhiều nền tảng và
+được phát hành giấy phép mã nguồn mở GPL.
 
-% Thử nghiệm trích dẫn \cite{Ahamed2010FTMforPervasiveEnvironments}. Trích dẫn tên tác giả \citet{Ahamed2010FTMforPervasiveEnvironments}. Trích dẫn đầy đủ
-% \citet*{Ahamed2010FTMforPervasiveEnvironments}.
+Agobot được viết bởi Ago với bí danh Wonk, thanh niên người Đức bị
+bắt vào tháng 5 năm 2004 vì tội phạm mạng. Các phiên bản mới nhất có của Agobot
+có thiết kế trừu tượng cấp cao với nhiều thành phần cấp cao bao gồm~\cite{inside,honeynet53}:
 
-Here is an equation\footnote{the notation is explained in the nomenclature section :-)}:
+\begin{itemize}
+\item Cơ chế điều khiển và chỉ huy dựa trên IRC
+\item Lượng lớn các mã độc dùng để khai thác mục tiêu
+\item Khả năng thực hiện các kiểu tấn công DoS khác nhau
+\item Thành phần hỗ trợ hỗ trợ mã hóa shellcode và thành phần cơ chế làm rối cơ bản dựa trên đa hình
+\item Khả năng thu thập mật khẩu Paypal, khoá phần mềm AOL và các thông tin
+	nhạy cảm khác từ máy bị lây nhiễm thông qua bắt gói tin, ghi lại sự kiện
+	bàn phím (key logger) hoặc tìm kiếm các khoá Windows Registry
+\item Cơ chế bảo vệ và tăng quyền kiểm soát các hệ thống bị chiếm đoạt sẵn
+	bằng cách đóng cái cửa sau (backdoor), vá các lổ hỗng khác hoặc vô hiệu
+	truy cập vào các trang web chống virus
+\item Cơ chế chống gỡ lỗi và dịch ngược (anti-debugging) bởi
+	các công cụ nổi tiếng như SoftIce, Ollydbg, v.v.
+	Cơ chế nhận diện ảo hoá trong máy ảo (ví dụ: VMWare và Virtual PC).
+\end{itemize}
+
+Agobot có kiến trúc nguyên khối, thể hiện tính sáng tạo trong thiết kế và
+tuân thủ nguyên tắc thiết kế với tập các cấu trúc và kiểu dữ liệu mở rộng
+được kiểm soát chặt chẽ và nguyên tắc kỹ thuật phần mềm thông qua tính
+mô đun hoá và tài liệu mã nguồn mạnh mẽ.
+
+Agobot được cấu trúc theo cách rất mô đun và rất dễ dàng để thêm các lệnh
+hoặc máy quét cho các lỗ hổng khác: Chỉ bằng cách cần mở rộng lớp
+\texttt{CCommandHandler} hoặc \texttt{CScanner} và thêm tính năng tương ứng.
+Một mẹo nhỏ \cite{honeynetgrep}: Chỉ cần dùng lệnh grep mã nguồn với từ khoá \texttt{RegisterCommand},
+ta sẽ có được toàn bộ danh sách lệnh với một mô tả đầy đủ của tất cả các tính năng.
 
 \section{Cơ chế điều khiển từ xa}
 \section{Điều khiển máy chủ}
