@@ -6,12 +6,6 @@
 
 \chapter{Phân tích codebase}
 
-% \ifpdf
-% \graphicspath{{Chapter1/Chapter1Figs/PNG/}{Chapter1/Chapter1Figs/PDF/}{Chapter1/Chapter1Figs/}}
-% \else
-% \graphicspath{{Chapter1/Chapter1Figs/EPS/}{Chapter1/Chapter1Figs/}}
-% \fi
-
 \section{Cấu trúc mã nguồn}
 
 Cấu trúc mã nguồn đề cập đến các đặc điểm thiết kế và cài đặt của mã bot.
@@ -23,16 +17,16 @@ bắt vào tháng 5 năm 2004 vì tội phạm mạng. Các phiên bản mới n
 có thiết kế trừu tượng cấp cao với nhiều thành phần cấp cao bao gồm~\cite{inside,honeynet53}:
 
 \begin{itemize}
-\item Cơ chế điều khiển và chỉ huy dựa trên IRC
-\item Lượng lớn các mã độc dùng để khai thác mục tiêu
-\item Khả năng thực hiện các kiểu tấn công DoS khác nhau
-\item Thành phần hỗ trợ hỗ trợ mã hóa shellcode và thành phần cơ chế làm rối cơ bản dựa trên đa hình
-\item Khả năng thu thập mật khẩu Paypal, khoá phần mềm AOL và các thông tin
+\item Cơ chế điều khiển và chỉ huy dựa trên IRC.
+\item Lượng lớn các mã độc dùng để khai thác mục tiêu.
+\item Khả năng thực hiện các kiểu tấn công DoS khác nhau.
+\item Thành phần hỗ trợ hỗ trợ mã hóa shellcode và thành phần cơ chế làm rối cơ bản dựa trên đa hình.
+\item Khả năng thu thập mật khẩu Paypal, khoá phần mềm AOL và các thông tin.
 	nhạy cảm khác từ máy bị lây nhiễm thông qua bắt gói tin, ghi lại sự kiện
-	bàn phím (key logger) hoặc tìm kiếm các khoá Windows Registry
+	bàn phím (key logger) hoặc tìm kiếm các khoá Windows Registry.
 \item Cơ chế bảo vệ và tăng quyền kiểm soát các hệ thống bị chiếm đoạt sẵn
-	bằng cách đóng cái cửa sau (backdoor), vá các lổ hỗng khác hoặc vô hiệu
-	truy cập vào các trang web chống virus
+	bằng cách đóng các backdoor, và vá các lổ hỗng khác hoặc vô hiệu
+	truy cập vào các trang web chống virus.
 \item Cơ chế chống gỡ lỗi và dịch ngược (anti-debugging) bởi
 	các công cụ nổi tiếng như SoftIce, Ollydbg, v.v.
 	Cơ chế nhận diện ảo hoá trong máy ảo (ví dụ: VMWare và Virtual PC).
@@ -50,12 +44,374 @@ Một mẹo nhỏ \cite{honeynetgrep}: Chỉ cần dùng lệnh grep mã nguồn
 ta sẽ có được toàn bộ danh sách lệnh với một mô tả đầy đủ của tất cả các tính năng.
 
 \section{Cơ chế điều khiển từ xa}
+Phương thức điều khiển từ xa gồm các ngôn ngữ chỉ huy và giao thức điều khiển được sử dụng
+để vận hành botnet từ xa sau khi hệ thống đích đã bị xâm phạm.
+
+Lý do quan trọng nhất để đi tìm hiểu chi tiết về phương thức
+giao tiếp của botnet là sự gián đoạn của nó có thể khiến cho botnet vô dụng.
+Ví dụ, nhà cung cấp mạng có thể xác định các hệ thống bị xâm phạm bằng cách
+tìm kiếm các lệnh botnet cụ thể trong lưu lượng IRC, và các nhà cung cấp
+máy chủ IRC có thể tắt các kênh (channel) được sử dụng bởi botnet.
+
+Agobot có hệ thống lệnh và điều khiển là một trích xuất của IRC.
+Giao thức được dùng để thiếp lập kết nối giữa hệ thống bị xâm phạm
+đến kênh điều khiển là IRC chuẩn. Còn ngôn ngữ lệnh gồm cách lệnh IRC
+chuẩn và các lệnh dành riêng của nó.
+
+Một phần ngôn ngữ lệnh được thể hiện trong Bảng \ref{table:botcmd}
+(tham khảo \cite{lurhq} để xem danh sách lệnh đầy đủ hơn).
+Tập lệnh bao gồm các chỉ thị yêu cầu bot thực hiện một chức năng cụ thể,
+ví dụ: \texttt{bot.open} mở một tệp cụ thể trên máy chủ.
+Các biến điều khiển (Bảng \ref{table:cvar_set}) được sử dụng trong lệnh \texttt{cvar.set} để bật / tắt
+các tính năng hoặc thao tác trường ảnh hưởng đến phương thức hoạt động,
+ví dụ: \texttt{ddos\_max\_threads} thiết đặt số luồng tối đa dùng để làm ngập máy
+chủ cụ thể.
+
+\begin{table}[ht!]
+	\caption{Các "biến" làm tham số cho lệnh \texttt{cvar.set}.}
+	\label{table:cvar_set}
+	\centering
+	\footnotesize
+	\begin{tabular}{l l}
+		\toprule
+		\textbf{Variable} & \textbf{Description}\\
+		\midrule
+		\texttt{bot\_ftrans\_port} & Set bot - file transfer port\\
+		\texttt{bot\_ftrans\_port\_ftp} & Set bot - file transfer port for FTP\\
+		\texttt{si\_chanpass} & IRC server information - channel password\\
+		\texttt{si\_mainchan} & IRC server information - main channel\\
+		\texttt{si\_nickprefix} & IRC server information - nickname prefix\\
+		\texttt{si\_port} & IRC server information - server port\\
+		\texttt{si\_server} & IRC server information - server address\\
+		\texttt{si\_servpass} & IRC server information - server password\\
+		\texttt{si\_usessl} & IRC server information - use SSL ?\\
+		\texttt{si\_nick} & IRC server information - nickname\\
+		\texttt{bot\_version} & Bot - version\\
+		\texttt{bot\_filename} & Bot - runtime filename\\
+		\texttt{bot\_id} & Bot - current ID\\
+		\texttt{bot\_prefix} & Bot - command prefix\\
+		\texttt{bot\_timeo} & Bot - timeout for receiving (in milliseconds)\\
+		\texttt{bot\_seclogin} & Bot - enable login only by channel messages\\
+		\texttt{bot\_compnick} & Bot - use the computer name as a nickname\\
+		\texttt{bot\_randnick} & Bot - random nicknames of letters and numbers\\
+		\texttt{bot\_meltserver} & Bot - melt the original server file\\
+		\texttt{bot\_topiccmd} & Bot - execute topic commands\\
+		\texttt{do\_speedtest} & Bot - do speed test on startup\\
+		\texttt{do\_avkill} & Bot - enable anti-virus kill\\
+		\texttt{do\_stealth} & Bot - enable stealth operation\\
+		\texttt{as\_valname} & Autostart - value name\\
+		\texttt{as\_enabled} & Autostart - enabled\\
+		\texttt{as\_service} & Autostart - start as service\\
+		\texttt{as\_service\_name} & Autostart - short service name\\
+		\texttt{scan\_maxthreads} & Scanner - maximum number of threads\\
+		\texttt{scan\_maxsockets} & Scanner - Maximum number of sockets\\
+		\texttt{ddos\_maxthreads} & DDoS - maximum number of threads\\
+		\texttt{redir\_maxthreads} & Redirect - maximum number of threads\\
+		\texttt{identd\_enabled} & IdentD - enable the server\\
+		\texttt{cdkey\_windows} & Return windows product keys on cdkey.get\\
+		\texttt{scaninfo\_chan} & Scanner - output channel\\
+		\texttt{scaninfo\_level} & Info level 1 (less) - (3) more\\
+		\texttt{spam\_aol\_channel} & AOL spam - channel name\\
+		\texttt{spam\_aol\_enabled} & AOL spam - enabled ?\\
+		\texttt{sniffer\_enabled} & Sniffer - enabled ?\\
+		\texttt{sniffer\_channel} & Sniffer - output channel\\
+		\texttt{vuln\_channel} & Vulnerability daemon sniffer channel\\
+		\texttt{inst\_polymorph} & Installer - polymorphoic on install ?\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[ht!]
+	\caption{Một phần ngôn ngữ lệnh và điều khiển của Agobot.}
+	\label{table:botcmd}
+	\centering
+	\footnotesize
+	\begin{tabular}{l l}
+		\toprule
+		\textbf{Command} &
+		\textbf{Description} \\
+		\midrule
+		\texttt{bot.about} & Displays information (e.g., version) about the bot code \\
+		\texttt{bot.die} & Terminates the bot \\
+		\texttt{bot.dns} & Resolves IP/hostname via DNS \\
+		\texttt{bot.execute} & Makes the bot execute a specific .exe \\
+		\texttt{bot.id} & Displays the ID of the current bot code \\
+		\texttt{bot.nick} & Changes the nickname of the bot \\
+		\texttt{bot.open} & Opens a specified file \\
+		\texttt{bot.remove} & Removes the bot from the host \\
+		\texttt{bot.removeallbut} & Removes the bot if ID does not match \\
+		\texttt{bot.rndnick} & Makes the bot generate a new random nickname \\
+		\texttt{bot.status} & Echo bot status information \\
+		\texttt{bot.sysinfo} & Echo the bot's system information \\
+		\texttt{bot.longuptime} & If uptime > 7 days then bot will respond \\
+		\texttt{bot.highspeed} & If speed > 5000 then bot will respond \\
+		\texttt{bot.quit} & Quits the bot \\
+		\texttt{bot.flushdns} & Flushes the bot's DNS cache \\
+		\texttt{bot.secure} & Delete specified shares and disable DCOM \\
+		\texttt{bot.unsecure} & Enable specified shares and enables DCOM \\
+		\texttt{bot.command } & Executes a specified command with system() \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\textbf{Nhận xét}: Chúng tôi dự đoán rằng Agobot trong tương lai có thể bao gồm việc sử dụng giao tiếp được mã hóa,
+chuyển từ IRC sang mô hình mạng ngang hàng (peer-to-peer).
+Trong khi điều này chắc chắn sẽ khiến việc chống lại botnet khó khăn hơn,
+nhưng đa phần lưu lượng botnet vẫn có thể được xác định thông qua phương pháp thống kê dấu vân tay.
+
+% \clearpage
+
 \section{Điều khiển máy chủ}
+
+Điều khiển máy chủ bao gồm các cơ chế được bot sử dụng để điều khiển máy chủ nạn nhân khi nó đã bị xâm phạm. Mục đích chung của kiểm soát máy chủ là củng cố quyền điều khiển máy nạn nhân bằng cách chống các tấn công nguy hiểm khác, để vô hiệu hóa phần mềm chống vi-rút và thu thập thông tin nhạy cảm.
+
+Tập các tính năng điều khiển máy chủ được cung cấp trong Agobot là khá đầy đủ (Bảng \ref{table:botctrl} ).
+Các lệnh này bao gồm:
+\begin{itemize}
+
+\item Các lệnh để bảo mật hệ thống, ví dụ như đóng các cổng NetBIOS chia sẻ,
+	vá cho các lỗ hổng phổ biến như RPC-DCOM (Blaster), v.v.
+\item Nhiều lệnh để thu thập thông tin nhạy cảm bao gồm email
+	địa chỉ, cdkeys, mật khẩu AOL, mật khẩu Paypal, v.v.
+\item Lệnh \textbf{pctrl} để liệt kê các tiến trình đang chạy trên máy chủ và
+	tiêu diệt các tiến trình cụ thể .
+\item Lệnh \textbf{inst} để thêm hoặc xóa các mục tự động chạy cùng hệ thống (autostart).
+\item Giám sát bàn phìm và mạng dựa trên pcap.
+\item Truy cập Windows Registry từ xa
+\item Kiểm soát hệ thống tập tin cục bộ, bao gồm khả năng tải xuống và thực thi.
+\end{itemize}
+
+\begin{table}[ht!]
+	\caption{Ngôn ngữ điều khiển máy chủ Agobot.}
+	\label{table:botctrl}
+	\centering
+	\footnotesize
+	\begin{tabular}{l l}
+		\toprule
+		\textbf{Command} &
+		\textbf{Description} \\
+		\midrule
+		\texttt{harvest.cdkeys} & Return a list of CD keys \\
+		\texttt{harvest.emails} & Return a list of emails \\
+		\texttt{harvest.emailshttp} & Return a list of emails via HTTP \\
+		\texttt{harvest.aol} & Return a list of AOL specific information \\
+		\texttt{harvest.registry} & Return registry information for specific registry path \\
+		\texttt{harvest.windowskeys} & Return Windows registry information \\
+		\texttt{pctrl.list} & Return list of all processes \\
+		\texttt{pctrl.kill} & Kill specified process set from service file \\
+		\texttt{pctrl.listsvc} & Return list of all services that are running \\
+		\texttt{pctrl.killsvc} & Delete/stop a specified service \\
+		\texttt{pctrl.killpid} & Kill specified process \\
+		\texttt{inst.asadd} & Add an autostart entry \\
+		\texttt{inst.asdel} & Delete an autostart entry \\
+		\texttt{inst.svcadd} & Adds a service to SCM \\
+		\texttt{inst.svcdel} & Delete a service from SCM \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \section{Cơ chế lan truyền}
+Lan truyền là các cơ chế được sử dụng bởi các bot để tìm kiếm các máy chủ mới.
+Cơ chế lan truyền truyền thống bao gồm quét ngang đơn giản trên một cổng duy nhất
+trải dài một dải địa chỉ cho trước hoặc quét dọc một địa chỉ IP duy nhất trên nhiều cổng mạng cụ thể.
+Tuy nhiên, khi khả năng của botnet mở rộng, có khả năng là chúng sẽ áp dụng các phương pháp tuyên truyền tinh vi hơn
+
+Các cơ chế quét trong Agobot là tương đối đơn giản và không khác nhiều so với việc quét ngang và quét dọc.
+Việc quét của Agobot dựa trên khái niệm về phạm vi mạng (tiền tố mạng) được cấu hình trên các bot riêng lẻ.
+Khi được điều khiển, bot có thể quét trải dài một mạng hoặc chọn ngẫu nhiên các địa chỉ IP trong một dải địa chỉ.
+Tuy nhiên, bộ lệnh quét hiện tại không cung cấp phương thức để phân phối một cách hiệu quả không gian địa chỉ mục tiêu trong giữa các bot với nhau. Bảng \ref{table:botprog} tóm tắt các lệnh quét trong Agobot.
+
+\begin{table}[ht!]
+	\caption{Các lệnh quét và lan truyền trong Agobot}
+	\label{table:botprog}
+	\centering
+	\footnotesize
+	\begin{tabular}{l l}
+		\toprule
+		\textbf{Command} &
+		\textbf{Description} \\
+		\midrule
+		\texttt{scan.addnetrange} & Adds a network range to a bot\\
+		\texttt{scan.delnetrange} & Deletes a network range from a bot\\
+		\texttt{scan.listnetranges} & Returns all network ranges registered with a bot\\
+		\texttt{scan.clearnetranges} & Clears all network ranges registered with a bot\\
+		\texttt{scan.resetnetranges} & Resets the network ranges to the localhost\\
+		\texttt{scan.enable <module name>} & Enables a scanner module e.g., DCOM\\
+		\texttt{scan.disable <module name>} & Disables a scanner module\\
+		\texttt{scan.startall} & Directs all bots to start scanning their network ranges\\
+		\texttt{scan.stopall} & Directs all bots to stop scanning\\
+		\texttt{scan.start} & Directs all enabled bots start scanning\\
+		\texttt{scan.stop} & Directs all bots to stop scanning\\
+		\texttt{scan.stats} & Returns results of scans\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \section{Phương thức khai thác và tấn công}
+Phương thức khai thác lổ hỗng gồm các phương pháp cụ thể để tấn công các lỗ hổng đã biết trên các hệ thống đích.
+Việc khai thác thường được kết hợp với việc quét để tìm kiếm mục tiêu.
+
+Agobot có tập các mô đun khai thác phức tạp nhất trong số các dòng bot cùng thời (2004).
+Trái ngược với các dòng bot ấy, bộ khai thác của Agobot ngày càng mở rộng thay vì trở thành các phiên bản riêng lẻ mà đi kèm với khai thác của riêng nó.
+Agobot bao gồm một thư viện mạnh mẽ dựng sẵn tận dụng các khai thác (Dcom, Dameware, Radmin).
+Agobot có thể tự động lan truyền qua cửa sau được cài đặt trước đó bởi Trojan (Bagle, MyDoom, v.v.)
+Điều này giúp Agobot tăng cơ hội xâm nhập các máy chủ mục tiêu.
+Các khai thác trong phiên bản của Agobot mà chúng tôi đánh giá bao gồm:
+
+\begin{enumerate}
+\item Bộ quét Bagle: quét backdoor được mở ra do các biến thể Bagle trên cổng 2745.
+\item Bộ quét Dcom (1/2): quét lỗi tràn bộ đệm DCE-RPC nổi tiếng.
+\item Bộ quét MyDoom: quét các backdoor được để lại bởi các biến thể của sâu MyDoom trên cổng 3127.
+\item Bộ quét Dameware: quét các phiên bản tồn tại lỗ hỗng của công cụ quản trị mạng Dameware.
+\item Bộ quét NetBIOS: quét mật khẩu bằng cách vét cạn NetBIOS chia sẻ.
+\item Bộ quét Radmin: quét lỗi tràn bộ đệm Radmin.
+\item Bộ quét MS-SQL: quét vét cạn mật khẩu các máy chủ SQL mở.
+\item Mô-đun DDoS tổng quát: cho phép bảy loại tấn công từ chối dịch vụ đối với một máy chủ mục
+	tiêu gồm udp flood, syn flood, http flood, targa3, wonk flood, phat syn flood (?), icmp flood.
+\end{enumerate}
+
+Danh sách các lệnh được sử dụng để kiểm soát các cuộc tấn công này được đưa ra trong Bảng \ref{table:botattack}.
+
+\begin{table}[ht!]
+	\caption{Các lệnh tấn công DDos trong Agobot.}
+	\label{table:botattack}
+	\centering
+	\footnotesize
+	\begin{tabular}{l l}
+		\toprule
+		\textbf{Command} &
+		\textbf{Description} \\
+		\midrule
+\texttt{ddos.udpflood} & Starts a UDP flood\\
+\texttt{ddos.synflood} & Starts a SYN flood\\
+\texttt{ddos.httpflood} & Starts an HTTP flood\\
+\texttt{ddos.phatsyn} & Starts a PHAT SYN flood\\
+\texttt{ddos.phaticmp} & Starts PHAT ICMP flood\\
+\texttt{ddos.phatwonk} & Starts PHATwonk flood\\
+\texttt{ddos.targa3} & Start a targa3 flood\\
+\texttt{ddos.stop} & Stops all floods\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
 \section{Phương thức phân phối malware}
+Các \gls{packer} (trình đóng gói) và \gls{encoder} (trình mã hóa shellcode) từ lâu đã được sử dụng
+trong phân phối phần mềm hợp pháp để nén và làm rối mã máy nhằm chống dịch ngược.
+
+Agobot áp dụng kỹ thuật tương tự vì những lý do đó.
+Tuy nhiên, Agobot tách mã khai thác ra khỏi phần phân phối:
+
+\begin{itemize}
+\item Mã khai thác được sử dụng để mở một remote shell dựa trên khai thác
+một lỗ hỗng (ví dụ như lỗi tràn bộ đệm)
+\item Từ shell, phần tập tin nhị phân độc hại đã mã hoá sau đó được tải lên bằng HTTP hoặc FTP.
+\end{itemize}
+
+Sự tách rời này cho phép bộ mã hoá (encoder) được sử dùng đồng thời trên
+nhiều mã khai thác do đó hợp lý hoá mã nguồn
+và có khả năng đa dạng hóa các dòng bit của kết quả.
+
+Agobot sử dụng một \gls{encoder} để làm rối \gls{assembly} và loại bỏ các byte null
+(mà kết thúc một chuỗi trong ngôn ngữ lập trình C) ra khỏi một chuỗi các lệnh x86.
+Như có thể thấy trong đoạn \ref{code:encoder}, đoạn mã sử dụng khoá \textbf{XOR} với giá trị 0x98 rồi tiếp tục kiểm tra liệu kết quả có còn chứa kí tự \texttt{null}.
+Nếu sai, nó tiếp tục thử các giá trị tiếp theo ($0x99, 0x9a, \ldots$) cho đến khi tìm được giá trị thích hợp.
+Giá trị tìm được này sẽ được sao chép vào shellcode tại vị trí \texttt{ENCODER\_OFFSET\_XORKEY}.
+
+Biện pháp này đánh bại hoặc ít nhất là làm phức tạp đáng kể việc phát hiện mã độc dựa trên chữ ký (MD5, SHA-1), ...
+
+\begin{listing}[ht]
+\caption{Hàm mã hoá shellcode của Agobot (thuộc file \texttt{shellcode.cpp})}
+\label{code:encoder}
+\begin{minted}[
+frame=lines,
+framesep=2mm,
+baselinestretch=1.2,
+fontsize=\scriptsize
+]{cpp}
+char encoder[] = "\xEB\x02\xEB\x05\xE8\xF9\xFF\xFF\xFF\x5B\x31\xC9\x66\xB9\xFF\xFF"
+         "\x80\x73\x0E\xFF\x43\xE2\xF9";
+#define ENCODER_OFFSET_SIZE 14 // Offset for size of the encoder
+#define ENCODER_OFFSET_XORKEY 19 // Offset for the xor key
+
+bool contains(char* szBuf, int iSize, char cChar) {
+  for (int i = 0; i < iSize; i++) {if (szBuf[i] == cChar) {return true; } }
+  return false; }
+
+int encrypt_shellcode(char* szOrigShell, int iOrigShellSize, char* szShellBuf,
+  int iShellBufSize, SCCallbackFunc pfnSC) {
+  int iSCSize = iOrigShellSize, iEncoderSize = sizeof(encoder);
+  int xorkey = 0x98;
+  // Create local copies of the shellcode and encoder
+  char* szShellCopy = (char*)malloc(iSCSize);
+  memset(szShellCopy, 0, iSCSize);
+  memcpy(szShellCopy, szOrigShell, iSCSize);
+  char* szEncoderCopy = (char*)malloc(iEncoderSize);
+  memset(szEncoderCopy, 0, iEncoderSize);
+  memcpy(szEncoderCopy, encoder, iEncoderSize);
+  if (pfnSC) {pfnSC(szShellCopy, iSCSize); }
+  char* szShellBackup = (char*)malloc(iSCSize);
+  memset(szShellBackup, 0, iSCSize);
+  memcpy(szShellBackup, szShellCopy, iSCSize);
+
+  // Set the content size in the encoder copy
+  char* szShellLength = (char*)&iSCSize;
+  szEncoderCopy[ENCODER_OFFSET_SIZE] = (char)szShellLength[0];
+  szEncoderCopy[ENCODER_OFFSET_SIZE + 1] = (char)szShellLength[1];
+
+  // XOR the shellcode while it contains 0x5C, 0x00, 0x0A or 0x0D
+  while (contains(szShellCopy, iSCSize, '\x5C') || contains(szShellCopy, iSCSize, '\x00') ||
+    contains(szShellCopy, iSCSize, '\x0A') || contains(szShellCopy, iSCSize, '\x0D')) {
+    memcpy(szShellCopy, szShellBackup, iSCSize);
+    xorkey++;
+    for (int i = 0; i < iSCSize; i++) {szShellCopy[i] = szShellCopy[i] ^ xorkey; }
+    szEncoderCopy[ENCODER_OFFSET_XORKEY] = xorkey;
+  }
+  free(szShellBackup);
+  // Clear the buffer with '\x00'
+  memset(szShellBuf, 0, iShellBufSize);
+  int iPos = 0;
+  // Append the encoder copy
+  memcpy(szShellBuf + iPos, szEncoderCopy, iEncoderSize);
+  iPos += iEncoderSize;
+  // Append the shellcode copy
+  memcpy(szShellBuf + iPos - 1, szShellCopy, iSCSize);
+  iPos += iSCSize;
+  free(szEncoderCopy);
+  free(szShellCopy);
+  return iPos;
+}
+\end{minted}
+\end{listing}
+
 \section{Phương thức obfuscation}
+\Gls{obfuscation} là cơ chế được sử dụng để ẩn các chi tiết của những gì được
+truyền qua mạng và những gì đi đến để thực hiện trên máy chủ đầu cuối.
+Agobot cung cấp việc \gls{obfuscation} một cách hạn chế.
+
+Agobot hỗ trợ 4 kịch bản mã hóa đa hình khác nhau:
+\begin{itemize}
+\item \texttt{POLY\_TYPE\_XOR},
+\item \texttt{SWY\_TYPE\_SWAP} (hoán đổi các byte liên tiếp),
+\item \texttt{POLY\_TYPE\_ROR} (xoay phải),
+\item \texttt{POLY\_TYPE\_ROL} (xoay trái).
+\end{itemize}
+
 \section{Phương thức deception}
 
-\section{Kết chương}
-Viết luận văn bằng
+\Gls{deception} đề cập đến các cơ chế được sử dụng để tránh bị phát hiện khi bot được cài đặt
+trên máy chủ đích (cơ chế này cũng được gọi là \texttt{rootkit}), bao gồm:
+
+\begin{itemize}
+\item Biện pháp để ẩn các tiến trình và tệp để người dùng không nhìn thấy.
+\item Các biện pháp kiểm tra và chống gỡ lỗi của các chương trình như OllyDebug, SoftIce và procdump.
+\item Kiểm tra ảo hoá VMWare nhằm cung cấp thông tin sai lệnh khi phân tích mã độc này.
+\item Tiêu diện các tiến trình của các ứng dụng chống virus phổ biến thông qua bằng cách chèn mã độc.
+\item Thay đổi danh mục DNS của máy chủ để khiến cho địa chỉ của các trang web chống vi-rút trỏ đến localhost.
+
+\end{itemize}
+
+Khi mà các biện pháp này được cải thiện thêm, việc phát hiện hệ thống bị xâm nhập sẽ trở nên khó khăn hơn và làm phức tạp
+nhiệm vụ của hệ thống nhận diện rootkit và chương trình chống virus.
+
+% \section{Kết chương}
+

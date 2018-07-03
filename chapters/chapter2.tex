@@ -1,0 +1,344 @@
+\chapter{Phân tích biến thể W32/Agobot.PX!worm}
+\section{Cơ chế tự động chạy cùng hệ thống}
+
+Agobot sao chép chính nó vào thư mục System của hệ thống dưới tên \texttt{stone.exe} và tạo khoá mục registry sau:
+
+\begin{table}[ht!]
+	\centering
+	\scriptsize
+	\begin{tabular}{l l}
+		\toprule
+		\textbf{Registry Key} &
+		\textbf{Value} \\
+		\midrule
+		\texttt{HKEY\_LOCAL\_MACHINE\textbackslash Software\textbackslash Microsoft\textbackslash Windows\textbackslash CurrentVersion\textbackslash Run}
+		 & stone = "stone.exe" \\
+		\texttt{HKEY\_LOCAL\_MACHINE\textbackslash Software\textbackslash Microsoft\textbackslash Windows\textbackslash CurrentVersion\textbackslash RunServices}
+		 & stone = "stone.exe" \\
+		 \bottomrule
+		\end{tabular}
+\end{table}
+
+\section{Phương thức lan truyền qua mạng}
+
+Quét mạng và cố gắng lây lan bằng cách khai thác các lỗ hổng sau:
+\begin{itemize}
+\item \href{http://www.microsoft.com/technet/security/bulletin/MS03-007.mspx}{Microsoft IIS WebDAV Remote Compromise Vulnerability}
+\item \href{http://www.microsoft.com/technet/security/bulletin/MS03-026.mspx}{Microsoft Remote Procedure Call (RPC) Distrubuted Component Object Model (DCOM) Vulnerability}
+\item \href{http://www.microsoft.com/technet/security/bulletin/MS03-001.mspx}{Microsoft Windows RPC Locator Service Buffer Overflow Vulnerability}
+\end{itemize}
+
+Liệt kê tất cả các mạng chia sẽ có sẵn rồi cố gắng để thả một bản sao của chính nó trong mạng chia sẻ đó.
+
+Cố gắng kết nối đến mạng chia sẽ được bảo vệ bằng mật khẩu bằng cách sử dụng tên người dùng và mật khẩu yếu, chẳng hạn như sau:
+
+User Names:
+
+\begin{itemize}
+\item Administrateur
+\item Coordinatore
+\item Administrador
+\item Verwalter
+\item Ospite
+\item Kanri
+\item KanriSha
+\item Admin
+\item Default
+\item Convidado
+\item Mgmt
+\item Standard
+\item User
+\item Administrat
+\item Owner
+\item User
+\item Server
+\item Test
+\item Guest
+\item Gast
+\item Inviter
+\item a
+\item aaa
+\item abc
+\item x
+\item xyz
+\item Dell
+\item Home
+\item Pc
+\item test
+\end{itemize}
+
+
+Passwords:
+\begin{itemize}
+\item Admin
+\item Password
+\item 1
+\item 12
+\item 123
+\item 1234
+\item 12345
+\item Beer
+\item Asdfgh
+\item 3
+\item 2
+\item 1
+\item Windowsxp
+\item Windows2k
+\item Windowsme
+\item Windows98
+\item Windoze
+\item Hax
+\item Dude
+\item Owned
+\item Lol
+\item Rooted
+\item Share
+\item System
+\item Access
+\item Fucked
+\item Gay
+\item Idiot
+\item 2003
+\item 2004
+\item Backdoor
+\item Whore
+\item Wh0re
+\item 000000
+\item 00000000
+\item Database
+\item Computer
+\item 123asd
+\item Ihavenopass
+\end{itemize}
+
+\section{Hành vi Backdoor hoặc Trojan}
+Kết nối với máy chủ Internet Relay Chat (IRC) \texttt{211.105.62.79}, trên cổng TCP 6667 để chờ lệnh từ kẻ tấn công từ xa.
+
+Ngăn chặn hệ thống đã bị xâm nhập kết nối với máy chủ cập nhật và các trang web liên quan đến bảo mật khác bằng cách thêm phần sau vào tệp HOSTS của máy chủ \ref{code:hosts}:
+\begin{listing}[ht]
+	\caption{Danh sách được thêm vào file HOSTS}
+	\label{code:hosts}
+	\begin{minted}[
+	frame=lines,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\scriptsize
+	]{text}
+127.0.0.1 www.symantec.com
+127.0.0.1 securityresponse.symantec.com
+127.0.0.1 symantec.com
+127.0.0.1 www.sophos.com
+127.0.0.1 sophos.com
+127.0.0.1 www.mcafee.com
+127.0.0.1 mcafee.com
+127.0.0.1 liveupdate.symantecliveupdate.com
+127.0.0.1 www.viruslist.com
+127.0.0.1 viruslist.com
+127.0.0.1 viruslist.com
+127.0.0.1 f-secure.com
+127.0.0.1 www.f-secure.com
+127.0.0.1 kaspersky.com
+127.0.0.1 www.avp.com
+127.0.0.1 www.kaspersky.com
+127.0.0.1 avp.com
+127.0.0.1 www.networkassociates.com
+127.0.0.1 networkassociates.com
+127.0.0.1 www.ca.com
+127.0.0.1 ca.com
+127.0.0.1 mast.mcafee.com
+127.0.0.1 my-etrust.com
+127.0.0.1 www.my-etrust.com
+127.0.0.1 download.mcafee.com
+127.0.0.1 dispatch.mcafee.com
+127.0.0.1 secure.nai.com
+127.0.0.1 nai.com
+127.0.0.1 www.nai.com
+127.0.0.1 update.symantec.com
+127.0.0.1 updates.symantec.com
+127.0.0.1 us.mcafee.com
+127.0.0.1 liveupdate.symantec.com
+127.0.0.1 customer.symantec.com
+127.0.0.1 rads.mcafee.com
+127.0.0.1 trendmicro.com
+127.0.0.1 www.trendmicro.com
+\end{minted}
+\end{listing}
+
+Cố gắng chấm dứt một số tiến trình nhất định, gồm một số tiến trình liên quan đến bảo mật, chẳng hạn như:
+
+\begin{itemize}
+\item F-AGOBOT.EXE
+\item HIJACKTHIS.EXE
+\item \_AVPM.EXE
+\item \_AVPCC.EXE
+\item \_AVP32.EXE
+\item ZONEALARM.EXE
+\item ZONALM2601.EXE
+\item ZATUTOR.EXE
+\item ZAPSETUP3001.EXE
+\item ZAPRO.EXE
+\item XPF202EN.EXE
+\item WYVERNWORKSFIREWALL.EXE
+\item WUPDT.EXE
+\item WUPDATER.EXE
+\item WSBGATE.EXE
+\item WRCTRL.EXE
+\item WRADMIN.EXE
+\item WNT.EXE
+\item WNAD.EXE
+\item WKUFIND.EXE
+\item WINUPDATE.EXE
+\item WINTSK32.EXE
+\item WINSTART001.EXE
+\item WINSTART.EXE
+\item WINSSK32.EXE
+\item WINSERVN.EXE
+\item WINRECON.EXE
+\item WINPPR32.EXE
+\item WINNET.EXE
+\item WINMAIN.EXE
+\item WININITX.EXE
+\item WININIT.EXE
+\item WININETD.EXE
+\item WINDOWS.EXE
+\item WINDOW.EXE
+\item WINACTIVE.EXE
+\item WIN32US.EXE
+\item WIN32.EXE
+\item WIN-BUGSFIX.EXE
+\item WIMMUN32.EXE
+\item WHOSWATCHINGME.EXE
+\item WGFE95.EXE
+\item WFINDV32.EXE
+\item WEBTRAP.EXE
+\item WEBSCANX.EXE
+\item WEBDAV.EXE
+\item WATCHDOG.EXE
+\item W9X.EXE
+\item W32DSM89.EXE
+\item VSWINPERSE.EXE
+\item VSWINNTSE.EXE
+\item VSWIN9XE.EXE
+\item VSSTAT.EXE
+\item VSMON.EXE
+\item VSMAIN.EXE
+\item VSISETUP.EXE
+\item VSHWIN32.EXE
+\item VSECOMR.EXE
+\item VSCHED.EXE
+\item VSCAN40.EXE
+\item VPTRAY.EXE
+\item VPFW30S.EXE
+\item VPC42.EXE
+\item VPC32.EXE
+\item VNPC3000.EXE
+\item VNLAN300.EXE
+\item VIRUSMDPERSONALFIREWALL.EXE
+\item VIR-HELP.EXE
+\item VFSETUP.EXE
+\item VETTRAY.EXE
+\item VET95.EXE
+\item VET32.EXE
+\item VCSETUP.EXE
+\item VBWINNTW.EXE
+\item VBWIN9X.EXE
+\item VBUST.EXE
+\item VBCONS.EXE
+\item VBCMSERV.EXE
+\item UTPOST.EXE
+\item UPGRAD.EXE
+\item UPDAT.EXE
+\item UNDOBOOT.EXE
+\item TVTMD.EXE
+\item TVMD.EXE
+\item TSADBOT.EXE
+\item TROJANTRAP3.EXE
+\item TRJSETUP.EXE
+\item TRJSCAN.EXE
+\item TRICKLER.EXE
+\item TRACERT.EXE
+\item TITANINXP.EXE
+\item TITANIN.EXE
+\item TGBOB.EXE
+\item TFAK5.EXE
+\item TFAK.EXE
+\item TEEKIDS.EXE
+\item TDS2-NT.EXE
+\item TDS2-98.EXE
+\item TDS-3.EXE
+\item TCM.EXE
+\item TC.EXE
+\item TBSCAN.EXE
+\item TAUMON.EXE
+\item TASKMON.EXE
+\end{itemize}
+
+Đánh cắp các key kích hoạt CD của các trò chơi phổ biến sau:
+
+\begin{itemize}
+\item Battlefield 1942
+\item Battlefield 1942: Secret Weapons Of WWII
+\item Battlefield 1942: The Road To Rome
+\item Battlefield 1942: Vietnam
+\item Black and White
+\item Call of Duty
+\item Command and Conquer: Generals
+\item Command and Conquer: Generals: Zero Hour
+\item Command and Conquer: Red Alert2
+\item Command and Conquer: Tiberian Sun
+\item Counter-Strike
+\item FIFA 2002
+\item FIFA 2003
+\item Freedom Force
+\item Global Operations
+\item Gunman Chronicles
+\item Half-Life
+\item Hidden and Dangerous 2
+\item IGI2: Covert Strike
+\item Industry Giant 2
+\item James Bond 007 Nightfire
+\item Medal of Honor: Allied Assault
+\item Medal of Honor: Allied Assault: Breakthrough
+\item Medal of Honor: Allied Assault: Spearhead
+\item Nascar Racing 2002
+\item Nascar Racing 2003
+\item Need For Speed: Hot Pursuit 2
+\item Need For Speed: Underground
+\item Neverwinter Nights
+\item NHL 2002
+\item NHL 2003
+\item Ravenshield
+\item Shogun: Total War: Warlord Edition
+\item Soldier of Fortune II - Double Helix
+\item Soldiers Of Anarchy
+\item The Gladiators
+\item Unreal Tournament 2003
+\item Unreal Tournament 2004
+\end{itemize}
+
+Mở một cổng ngẫu nhiên và thiết lập nó thành máy chủ FTP.
+
+Gửi tin nhắn HTTP POST chứa một lượng lớn dữ liệu tới các máy chủ sau:
+\begin{itemize}
+\item yahoo.co.jp
+\item www.nifty.com
+\item www.d1asia.com
+\item www.st.lib.keio.ac.jp
+\item www.lib.nthu.edu.tw
+\item www.above.net
+\item www.level3.com
+\item nitro.ucsc.edu
+\item www.burst.net
+\item www.cogentco.com
+\item www.rit.edu
+\item www.nocster.com
+\item www.verio.com
+\item www.stanford.edu
+\item www.xo.net
+\item de.yahoo.com
+\item www.belwue.de
+\item www.switch.ch
+\item www.1und1.deverio.fr
+\item www.utwente.nl
+\item www.schlund.net
+\end{itemize}

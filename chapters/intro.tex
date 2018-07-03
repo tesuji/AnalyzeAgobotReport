@@ -1,47 +1,107 @@
+\chapter*{TÓM TẮT ĐỒ ÁN}
+\addcontentsline{toc}{chapter}{TÓM TẮT ĐỒ ÁN}
 
-\chapter*{Tóm tắt đồ án}
-\addcontentsline{toc}{chapter}{Tóm tắt đồ án}
+Agobot, thường được biết đến là Gaobot, là một họ sâu máy tính. Lập trình viên
+người Đức - Axel Ago Gembe - là người chịu trách nhiệm viết phiên bản đầu tiên của
+Agobot. Mã nguồn Agobot mô tả nó là: "bot IRC dạng mô-đun dành cho Win32/Linux".
+Agobot được phát hành theo giấy phép GPL2. Agobot là chương trình đa luồng và hướng
+đối tượng được viết bằng C++, trong khi các thành phần nhỏ hơn được viết bằng hợp
+ngữ. Agobot là một ví dụ về botnet mà hầu như không hoặc yêu cầu rất ít kiến thức lập
+trình để có thể sử dụng nó.
 
-Trong đồ án này, chúng tôi trình bày việc Phân tích biến thể botnet Agobot.
+Agobot (hay còn gọi là Gaobot, Polybot, và Phatbot) trình bày chính nó như là một
+nghiên cứu thú vị vì nó có thể là virus được lưu hành rộng rãi nhất trong lịch sử, chỉ dựa
+trên số lượng các biến thể duy nhất được tạo ra. Số lượng các phiên bản hiện tại là
+khoảng 1200, nhưng không thể biết được có bao nhiêu người làm bản sao có thể đã biên
+dịch bản sao virus của riêng họ. Số lượng các biến thể là do sự sẵn có của mã nguồn được
+công bố, bị cáo buộc được viết bởi tác giả Axel "Ago" Gembe bị bắt vào tháng 5 năm
+2004 tại Đức. Số lượng biến thể khổng lồ này làm cho Agobot trở thành một thách thức
+để kiểm tra. Việc sử dụng các biến thể kết hợp với các mảng hoán vị tính toán vô hạn gần
+như buộc phải bắt đầu bằng cách chỉ nhìn vào một vài khía cạnh của chương trình.
 
-Việc phân tích chủ yếu tập trung vào các HTTP Request trên tập dữ liệu CSIC 2010 qua việc áp dụng thuật toán Cây quyết định (Decision Tree).
+Agobot không phù hợp với mô hình chuẩn của "virus kit", vì nó không bị giới hạn
+bởi một tập các biến được sắp xếp trong bộ tạo worm. Trong thực tế, nó vượt ra ngoài bộ
+virus tiêu chuẩn bằng cách cung cấp một trình bao cho bất kỳ số lần khai thác nào, không
+chỉ những người được phát hiện tại thời điểm tạo ra Agobot. Bài báo cáo này sẽ giới thiệu
+các bộ virus, xác định vị trí của Agobot trong lịch sử của virus kit, và chi tiết một số biến
+thể và cách chúng hoạt động. Tham chiếu chung cho các thuật ngữ "Agobot" và
+"Gaobot" đại diện cho toàn bộ gia đình các biến thể của nó, bao gồm cả Agobot gốc
+thông qua hậu duệ của nó, Phatbot.
 
-Nội dung gồm 2 phần chính:
+Bài viết này đánh giá mối đe dọa của các biến thể có nguồn gốc từ Agobot bằng cách
+kiểm tra sự phát triển của virus, các bản release của source code, và một vài lần lặp lại cụ
+thể. Phân tích này đặt mã Agobot trong danh mục “virus kit”. Từ phân loại này, Agobot
+được trình bày có thể là bộ virus kit thành công nhất trong lịch sử, không phải vì số lượng
+biến thể hoặc máy chủ bị nhiễm, mà là vì điều chỉnh trong phòng chống virus nó đã yêu
+cầu.
 
-\begin{itemize}
-  \item \textbf{Cơ sở lý thuyết} - giới thiệu lý thuyết toán học liên quan. Sau đó giới thiệu sơ lược về máy học, các khái niệm và phân loại. Tiếp theo phân tích thuật toán cây quyết định và giới thiệu một số lỗ hổng bảo mật web phổ biến.
+% Nội dung gồm 2 phần chính:
 
-  \item \textbf{Hướng tiếp cận và thực nghiệm} - phần này trình bày thực nghiệm và kết quả đạt được.
-\end{itemize}
+% \begin{itemize}
+% \item asdf
+% \end{itemize}
 
-\newpage
+\clearpage
 
-\chapter*{Mở đầu}
-\addcontentsline{toc}{chapter}{Mở đầu}
+\chapter*{MỞ ĐẦU}
+\addcontentsline{toc}{chapter}{MỞ ĐẦU}
 
 \section*{Lý do chọn đề tài}
-Nhiều ứng dụng web ngày nay gặp phải vấn đề bảo mật do các nhà phát triển ứng dụng web muốn tạo ra sản phẩm nhanh, không quan tâm cũng như hạn chế về kiến thức liên quan đến bảo mật. Để khắc phục vấn đề này, nhà phát triển web cần tìm ra một công cụ để giảm thiểu rủi ro bảo mật. Phát hiện xâm nhập là một công cụ mạnh mẽ để nhận diện và ngăn chặn tấn công hệ thống. Hầu hết những công nghệ phát hiện xâm nhập hệ thống web hiện nay không có khả năng giải quyết các tấn công web phức tạp, những kiểu tấn công mới chưa từng biết trước đó.
+Trong cuộc sống hàng ngày của chúng ta gia tăng sự phụ thuộc vào Internet, thêm
+vào đó là rất nhiều thách thức trong việc quản lý Internet và sử dụng các ứng dụng như
+là: bảo vệ, an toàn, toàn vẹn và khả dụng dữ liệu người dùng. Trong những năm gần đây,
+Intenet đóng một vai trò chính trong cuộc sống của chúng ta, đặc biệt trong truyền thông,
+giáo dục, dịch vụ công, ngân hàng và thương mại... Không may mắn là việc gia tăng nhu
+cầu sử dụng các ứng dụng trở thành mối đe dọa đến tính riêng tư và an toàn dữ liệu của
+người dùng. Botnet là mộ phần mềm điều khiển máy tính với mục đích độc hại, gọi là
+bots. Bots là những kịch bản nhỏ đã được xây dựng để thực hiện những tác vụ tự động và
+đặc biệt. Những bots này được điều khiển bởi một hay một nhóm nhỏ hackers gọi là
+"botmaster". Theo thống kê của McAfee Labs, số phần mềm độc hại mới được phát hiện
+đạt tới 50 triệu trong quý 4 năm 2014 và có thể đạt tới nửa tỷ vào cuối năm 2015. Hơn
+nữa, lưu lượng Internet bao gồm đến 80\% là lưu lượng botnets liên quan đến những email
+spam có nguồn gốc từ những botnet nổi tiếng như: Grum, Cutwail và Rustock. Ngày nay,
+những botnets quy mô lớn có thể tung ra nhiều hơn 1 triệu PCs để tấn công không gian
+mạng.
 
-Tuy nhiên, với việc áp dụng máy học có thể xây dựng những mô hình giúp phát hiện những kiểu tấn công đã biết hoặc chưa biết. Như đã biết, machine learning gây nên cơn sốt công nghệ trên toàn thế giới trong vài năm nay. Trong giới học thuật, mỗi năm có hàng ngàn bài báo khoa học về đề tài này. Trong giới công nghiệp, từ các công ty lớn như Google, Facebook, Microsoft đến các công ty khởi nghiệp đều đầu tư vào machine learning. Hàng loạt các ứng dụng sử dụng machine learning ra đời trên mọi lĩnh vực của cuộc sống, từ khoa học máy tính đến những ngành ít liên quan hơn như vật lý, hóa học, y học, chính trị.
+Những botnets khác nhau từ các loại phần mềm độc hai thông qua việc sử dụng một
+kênh truyền thông để nhận lệnh và thông báo trạng thái hiện hành tới người điều hành.
+Theo báo cáo của Golden State năm 2014, cuộc tấn công không gian mạng vào đêm
+Giáng sinh vào website ngân hàng vùng California đã làm ngưng trệ công việc của các
+nhân viên trong việc phục hồi một tài khoản trong số các khách hàng của họ và đã bị mất
+hơn 900,000 đô la. Thêm nữa, năm 2013 FBI thông báo 10 hacker quốc tế đã bị bắt giữ
+khi sử dụng botnet để trộm hơn 850 triệu đô la thông qua một hệ thống máy tính bị lây
+nhiễm. Chúng đã sử dụng thông tin tài chính cá nhân của mọi người để trộm số tiền như
+vậy.
 
-Chính vì những điều trên đã thôi thúc chúng tôi sử dụng máy học trong lĩnh vực phát hiện tấn công web.
+Trong thực tế, botnet có những đặc tính riêng biệt so với các kiểu phần mềm độc hại
+khác. Ví dụ, botmaster có điều khiển những máy tính bị nhiễm và gửi lệnh cho nó mà
+không cần trực tiếp liên lạc với chúng. Cũng có nhiều bots làm việc theo cách phối hợp
+và nhận hướng dẫn từ botmaster để nhanh chóng phối hợp tấn công như tấn công từ chối
+dịch vị phân tán, spam phân tán và lừa đảo. Ngoài ra, botnet còn cung cấp các gian lận
+này như một hình thức dịch vụ được xem xét là một phần của vấn đề botnet tấn công vào
+nền kinh tế.
+
+Chính vì những lí do đó mà nhóm chúng tôi đã thực hiện đề tài này.
 
 \section*{Mục đích thực hiện đề tài}
-Khi thực hiện đề tài, nhóm chúng tôi mong muốn được tiếp cận nghiên cứu và tìm hiểu về lĩnh vực máy học. Và từ đó vận dụng vào ngành đang học - An toàn thông tin.
+Khi chọn thực hiện đề tài, nhóm chúng tôi mong muốn được tìm hiểu và tiếp cận các
+phương pháp phân tích mã độc, từ đó vận dụng vào ngành của mình đang học – ngành
+An toàn thông tin, và các công việc sau này.
 
-Hai mục tiêu hướng đến là:
+Các mục tiêu hướng đến là:
 
 \begin{itemize}
-  \item Thứ nhất, sẽ có kiến thức cơ bản về máy học và lý thuyết liên quan.
-  \item Thứ hai, tìm hiểu và chọn được một thuật toán để vận dụng phân tích một tập dữ liệu cho trước để nhận diện luồng traffic bình thường và bất thường.
+\item Làm quen, tiếp cận các phương pháp mã độc từ trước đến nay.
+\item Phân loại rõ sự khác biệt giữa Agobot và các loại botnet khác, và giữa các biến
+thể của các botnet của chính Agobot.
 \end{itemize}
 
 \section*{Đối tượng và phạm vi nghiên cứu của đề tài}
-Đối tượng và phạm vi nghiên cứu tập trung vào hai điểm chính:
+Đối tượng và phạm vi nghiên cứu tập trung vào:
 
 \begin{itemize}
-  \item \textbf{Tập dữ liệu được sử dụng để training} - chọn tập dữ liệu \textbf{HTTP DATASET CSIC 2010}.
-  \item \textbf{Thuật toán được sử dụng} - cây quyết định.
+\item Agobot nói chung và các biến thể của Agobot nói riêng.
 \end{itemize}
 
-Trong phạm vi của đồ án, nhóm tác giả chỉ tập trung vào việc phân tích \textbf{Request Line} và \textbf{Request Body} trong các gói tin HTTP Request.
+Trong phạm vi của đồ án, nhóm chỉ tập trung vào phân tích phiên bản gốc Agobot là
+chính.

@@ -11,11 +11,16 @@
 \usepackage{amssymb}
 \usepackage{xcolor}
 
+\usepackage{amsthm} % Cho phép thêm các môi trường định nghĩa
+
 \usepackage[
 	% colorlinks=true,
 	% allcolors=red,
 	unicode
 ]{hyperref}
+
+\usepackage{booktabs} % for Table
+\emergencystretch=1em
 
 \usepackage{times} % Chọn font Time New Romans
 \usepackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
@@ -118,6 +123,9 @@
 %  all
 ]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
 
+\theoremstyle{definition}
+\newtheorem{example}{Ví dụ}[chapter] % Định nghĩa môi trường ví dụ
+
 \renewcommand{\baselinestretch}{1.5}
 \setlength{\mathindent}{0cm}
 % Paragraph Indentation
@@ -126,6 +134,9 @@
 
 % \usepackage{showframe}
 
+\usepackage{minted}
+\usemintedstyle{vs}
+
 \begin{document}
 
 	%\begin{comment}
@@ -133,6 +144,23 @@
 	\input{./cover.tex}
 	\restoregeometry
 	%\end{comment}
+
+	\chapter*{LỜI CẢM ƠN}
+	\addcontentsline{toc}{chapter}{LỜI CẢM ƠN}
+Để có thể hoàn thành đồ án chuyên ngành một cách hoàn chỉnh nhất, nhóm em đã
+nhận được rất nhiều sự hướng dẫn nhiệt tình của thầy Phạm Văn Hậu, cũng như từ sự hỗ
+trợ của rất nhiều bạn bè trong thời gian hoàn thiện. Vì vậy, tụi em xin phép được gửi lời
+cảm ơn chân thành nhất.
+
+Đầu tiên, nhóm em xin chân thành cảm ơn và bày tỏ lòng biết ơn đến thầy Phạm Văn
+Hậu, thầy đã tận tình chỉ bảo, hướng dẫn và động viên nhóm em để tụi em có thể hoàn
+thành khóa luận một cách tốt đẹp nhất. Tôi xin gởi đến thầy những lời tri ân nhất đối với
+những điều mà thầy đã dành cho tụi em.
+
+Sau cùng, nhóm xin kính chúc toàn thể quý thầy cô trong Khoa Mạng máy tính và
+Truyền thông và thầy Phạm Văn Hậu luôn dồi dào sức khỏe, sự nhiệt huyết và thành
+công trong cuộc sống cũng như trong sứ mệnh truyền đạt kiến thức cho các thế hệ trẻ mai
+sau.
 
 	\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
 	\setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
@@ -157,8 +185,8 @@
 		% \listoffigures
 		% \addcontentsline{toc}{chapter}{\listfigurename}
 
-		% \listoftables
-		% \addcontentsline{toc}{chapter}{\listtablename}
+		\listoftables
+		\addcontentsline{toc}{chapter}{\listtablename}
 
 		\renewcommand{\glossaryname}{Danh sách thuật ngữ}
 		% \renewcommand*{\acronymname}{Danh sách từ viết tắt}
@@ -170,11 +198,11 @@
 	}
 	\clearpage
 
-	% \include{chapters/intro}
+	\include{chapters/intro}
 
 	\pagenumbering{arabic}
 	\include{chapters/chapter1}
-
+	\include{chapters/chapter2}
 
 \clearpage
 \phantomsection % Requires hyperref package
