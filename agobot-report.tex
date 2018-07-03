@@ -9,18 +9,28 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{xcolor}
+
+\usepackage[
+	% colorlinks=true,
+	% allcolors=red,
+	unicode
+]{hyperref}
+
 \usepackage{times} % Chọn font Time New Romans
 \usepackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
 % \usepackage{array} % Tạo bảng array
 % \usepackage{enumitem} % Cho phép thay đổi kí hiệu của listfont Time New Romans
 
-\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
-% \usepackage{subfiles} % Chèn các file nhỏ, giúp chia các chapter ra nhiều file hơn
+%\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
 \usepackage{chngcntr} % Dùng để thiết lập lại cách đánh số caption,..
 
 % \usepackage{multirow} % Merge cells
 
-%\usepackage[natbib,backend=biber,style=ieee]{biblatex} % Giúp chèn tài liệu tham khảo
+\usepackage[
+	backend=biber,
+	style=ieee
+]{biblatex} % Giúp chèn tài liệu tham khảo
+\addbibresource{bibliography.bib}
 
 %% For commenting out slow-rendering
 \usepackage{comment}
@@ -29,17 +39,22 @@
 \graphicspath{ {figures/} }
 
 \usepackage[
-  % nonumberlist,
-  % nopostdot,
-  % nogroupskip
+	nonumberlist,
+	nopostdot,
+	nogroupskip,
+	%xindy,
+	toc
 ]{glossaries}
 
 \usepackage{glossary-superragged}
 \setglossarystyle{superraggedheaderborder}
+
+\makeglossaries
+% \makenoidxglossaries
+\input{glossary/main} % Load this package after `hyperref`
+
 \usepackage{setspace}
 \usepackage{parskip}
-
-% \usepackage{showframe}
 
 \usepackage{fancyhdr} % Cho phép tùy biến header và footer
 % \usepackage{fancybox} % Tạo khung box
@@ -56,52 +71,51 @@
 
 \newcommand{\titlesize}{\fontsize{18pt}{23pt}\selectfont}
 \newcommand{\subtitlesize}{\fontsize{16pt}{21pt}\selectfont}
-\titleclass{\part}{top}
-\titleformat{\part}[display]
-  {\normalfont\huge\bfseries}{\centering}{20pt}{\Huge\centering}
-\titlespacing{\part}{0pt}{2em}{1em}
-\titlespacing{\section}{0pt}{\parskip}{0.5\parskip}
-\titlespacing{\subsection}{0pt}{\parskip}{0.5\parskip}
-\titlespacing{\subsubsection}{0pt}{\parskip}{0.5\parskip}
+
+%% More in https://www.sharelatex.com/learn/Sections_and_chapters
+\titlespacing{\chapter}
+	{0pt}
+	{2em}
+	{1em}
+\titlespacing{\section}
+	{0pt}
+	{\parskip}
+	{0.5\parskip}
+\titlespacing{\subsection}
+	{0pt}
+	{\parskip}
+	{0.5\parskip}
+\titlespacing{\subsubsection}
+	{0pt}
+	{\parskip}
+	{0.5\parskip}
 
 \title{\bf \TITLE}
 \author{\AUTHOR}
 
-\usepackage[
-  % colorlinks=true,
-  % allcolors=red,
-  unicode
-]{hyperref}
-
 \hypersetup{
-  pdftoolbar=true,        % show Acrobat’s toolbar?
-  pdfmenubar=true,        % show Acrobat’s menu?
-  pdffitwindow=false,     % window fit to page when opened
-  pdfstartview={FitH},    % fits the width of the page to the window
-  pdftitle={\TITLE},    % title
-  pdfauthor={\AUTHOR},     % author
-  pdfsubject={\SUBJECT},   % subject of the document
-  %pdfcreator={\AUTHOR},   % creator of the document
-  %pdfproducer={\AUTHOR}, % producer of the document
-  pdfkeywords={Agobot} {Phatbot} {Gaobot} {IRC bot} {Botnet} {Malwares}, % list of keywords
-  pdfnewwindow=true,      % links in new window
-  colorlinks=true,       % false: boxed links; true: colored links
-  linkcolor=red,          % color of internal links (change box color with linkbordercolor)
-  citecolor=green,        % color of links to bibliography
-  filecolor=magenta,      % color of file links
-  urlcolor=cyan           % color of external links
+	% bookmarks=true,         % show bookmarks bar?
+	pdftoolbar=true,        % show Acrobat’s toolbar?
+	pdfmenubar=true,        % show Acrobat’s menu?
+	pdffitwindow=false,     % window fit to page when opened
+	pdfstartview={FitH},    % fits the width of the page to the window
+	pdftitle={\TITLE},    % title
+	pdfauthor={\AUTHOR},     % author
+	pdfsubject={\SUBJECT},   % subject of the document
+	%pdfcreator={\AUTHOR},   % creator of the document
+	%pdfproducer={\AUTHOR}, % producer of the document
+	pdfkeywords={Agobot} {Phatbot} {Gaobot} {IRC bot} {Botnet} {Malwares}, % list of keywords
+	pdfnewwindow=true,      % links in new window
+	colorlinks=false,       % false: boxed links; true: colored links
+	linkcolor=red,          % color of internal links (change box color with linkbordercolor)
+	citecolor=green,        % color of links to bibliography
+	filecolor=magenta,      % color of file links
+	urlcolor=cyan           % color of external links
 }
+
 \usepackage[
 %  all
 ]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
-
-%% French Dimensions
-%% -----------------
-% \textheight 230mm
-% \textwidth 168mm
-% \topmargin -10.3mm
-% \evensidemargin -5.4mm
-% \oddsidemargin -5.4mm
 
 \renewcommand{\baselinestretch}{1.5}
 \setlength{\mathindent}{0cm}
@@ -109,54 +123,65 @@
 \setlength{\parindent}{0pt}
 \everymath{\displaystyle}
 
+% \usepackage{showframe}
+
 \begin{document}
-  % \begin{comment}
-  \newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
-  \input{./cover.tex}
-  \restoregeometry
-  % \end{comment}
 
-  \pagenumbering{roman}
+	%\begin{comment}
+	\newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+	\input{./cover.tex}
+	\restoregeometry
+	%\end{comment}
 
-  \setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
-  \setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
+	\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
+	\setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
 
-  \pagestyle{empty} % Header và footer rỗng
-{
-  \cleardoublepage
-  \phantomsection
-  \hypersetup{
-    linkcolor=black,
-    % linktoc=none% <- no links in ToC
-  }
-  % \addcontentsline{toc}{chapter}{Contents}
-  \pdfbookmark{\contentsname}{toc}
-  \tableofcontents % Mục lục
-  % \addcontentsline{toc}{chapter}{\contentsname}
-  % \addcontentsline{toc}{chapter}{List of Figures}
-  \listoffigures % Danh sách các hình ảnh
-  \listoftables % Danh sách bảng biểu
-}
+	{
+		% \begin{comment}
+		\pagenumbering{roman}
+		%\cleardoublepage
+		\phantomsection
 
-  \glsaddall
-  \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
-  \renewcommand*{\acronymname}{Danh sách từ viết tắt}
-  \renewcommand*{\entryname}{Tiếng Anh}
-  \renewcommand*{\descriptionname}{Tiếng Việt}
-  \printglossaries
+		\hypersetup{
+			hidelinks,
+			% linkbordercolor=black,
+			% linkcolor=black, % If the colorlinks=true option of hyperref is used
+			% linktoc=none %  No links in ToC
+		}
 
-  \pagenumbering{arabic}
-  \chapter*{Introduction}
-  This chapter's content...
+		\pdfbookmark{\contentsname}{toc}
+		\tableofcontents
+		% \addcontentsline{toc}{chapter}{\contentsname} % add toc to ifself
 
-  \section{Structure}
-  This section's content...
+		% \listoffigures
+		% \addcontentsline{toc}{chapter}{\listfigurename}
 
-  \subsection{Top Matter}
-  This subsection's content...
+		% \listoftables
+		% \addcontentsline{toc}{chapter}{\listtablename}
 
-  \subsubsection{Article Information}
-  This subsubsection's content...
+		\renewcommand{\glossaryname}{Danh sách thuật ngữ}
+		% \renewcommand*{\acronymname}{Danh sách từ viết tắt}
+		% \renewcommand*{\entryname}{Tiếng Anh}
+		% \renewcommand*{\descriptionname}{Tiếng Việt}
+		\glsaddall
+		\printglossaries
+		% \end{comment}
+	}
+	\clearpage
 
+	% \include{chapters/intro}
+
+	\pagenumbering{arabic}
+	\include{chapters/chapter1}
+
+
+\clearpage
+\phantomsection % Requires hyperref package
+% \addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\nocite{*} % Show all Bib-entries
+%\pagestyle{plain}
+\printbibliography[
+	heading=bibintoc,
+]
 
 \end{document}

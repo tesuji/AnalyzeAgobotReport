@@ -1,21 +1,24 @@
-\documentclass[../main-report.tex]{subfiles}
 
-\begin{document}
-\part*{TÓM TẮT ĐỒ ÁN}
-\addcontentsline{toc}{chapter}{TÓM TẮT ĐỒ ÁN}
-Trong đồ án này, chúng tôi trình bày việc ứng dụng máy học (\Gls{ml}) vào phân tích và phát hiện các luồng traffic bất thường.
+\chapter*{Tóm tắt đồ án}
+\addcontentsline{toc}{chapter}{Tóm tắt đồ án}
+
+Trong đồ án này, chúng tôi trình bày việc Phân tích biến thể botnet Agobot.
+
 Việc phân tích chủ yếu tập trung vào các HTTP Request trên tập dữ liệu CSIC 2010 qua việc áp dụng thuật toán Cây quyết định (Decision Tree).
 
 Nội dung gồm 2 phần chính:
 
 \begin{itemize}
-\item \textbf{Cơ sở lý thuyết} - giới thiệu lý thuyết toán học liên quan. Sau đó giới thiệu sơ lược về máy học, các khái niệm và phân loại. Tiếp theo phân tích thuật toán cây quyết định và giới thiệu một số lỗ hổng bảo mật web phổ biến.
-\item \textbf{Hướng tiếp cận và thực nghiệm} - phần này trình bày thực nghiệm và kết quả đạt được.
+  \item \textbf{Cơ sở lý thuyết} - giới thiệu lý thuyết toán học liên quan. Sau đó giới thiệu sơ lược về máy học, các khái niệm và phân loại. Tiếp theo phân tích thuật toán cây quyết định và giới thiệu một số lỗ hổng bảo mật web phổ biến.
+
+  \item \textbf{Hướng tiếp cận và thực nghiệm} - phần này trình bày thực nghiệm và kết quả đạt được.
 \end{itemize}
 
 \newpage
-\part*{MỞ ĐẦU}
-\addcontentsline{toc}{chapter}{MỞ ĐẦU}
+
+\chapter*{Mở đầu}
+\addcontentsline{toc}{chapter}{Mở đầu}
+
 \section*{Lý do chọn đề tài}
 Nhiều ứng dụng web ngày nay gặp phải vấn đề bảo mật do các nhà phát triển ứng dụng web muốn tạo ra sản phẩm nhanh, không quan tâm cũng như hạn chế về kiến thức liên quan đến bảo mật. Để khắc phục vấn đề này, nhà phát triển web cần tìm ra một công cụ để giảm thiểu rủi ro bảo mật. Phát hiện xâm nhập là một công cụ mạnh mẽ để nhận diện và ngăn chặn tấn công hệ thống. Hầu hết những công nghệ phát hiện xâm nhập hệ thống web hiện nay không có khả năng giải quyết các tấn công web phức tạp, những kiểu tấn công mới chưa từng biết trước đó.
 
@@ -29,17 +32,16 @@ Khi thực hiện đề tài, nhóm chúng tôi mong muốn được tiếp cậ
 Hai mục tiêu hướng đến là:
 
 \begin{itemize}
-\item Thứ nhất, sẽ có kiến thức cơ bản về máy học và lý thuyết liên quan.
-\item Thứ hai, tìm hiểu và chọn được một thuật toán để vận dụng phân tích một tập dữ liệu cho trước để nhận diện luồng traffic bình thường và bất thường.
+  \item Thứ nhất, sẽ có kiến thức cơ bản về máy học và lý thuyết liên quan.
+  \item Thứ hai, tìm hiểu và chọn được một thuật toán để vận dụng phân tích một tập dữ liệu cho trước để nhận diện luồng traffic bình thường và bất thường.
 \end{itemize}
 
 \section*{Đối tượng và phạm vi nghiên cứu của đề tài}
 Đối tượng và phạm vi nghiên cứu tập trung vào hai điểm chính:
 
 \begin{itemize}
-\item \textbf{Tập dữ liệu được sử dụng để training} - chọn tập dữ liệu \textbf{HTTP DATASET CSIC 2010}.
-\item \textbf{Thuật toán được sử dụng} - cây quyết định.
+  \item \textbf{Tập dữ liệu được sử dụng để training} - chọn tập dữ liệu \textbf{HTTP DATASET CSIC 2010}.
+  \item \textbf{Thuật toán được sử dụng} - cây quyết định.
 \end{itemize}
 
 Trong phạm vi của đồ án, nhóm tác giả chỉ tập trung vào việc phân tích \textbf{Request Line} và \textbf{Request Body} trong các gói tin HTTP Request.
-\end{document}
