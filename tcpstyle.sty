@@ -1,0 +1,190 @@
+%% More https://www.sharelatex.com/learn/Management_in_a_large_project#Preamble_in_a_separate_file
+%% and https://www.sharelatex.com/learn/Writing_your_own_package
+
+%% Identification of this package
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{tcpstyle}[2018/07/04 Example LaTeX package]
+
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\RequirePackage[utf8]{vietnam}
+% \RequirePackage[utf8]{inputenc}
+\RequirePackage{graphicx}
+\RequirePackage{xcolor}
+
+%%%%%%%%%%%%%%%%%%%%%
+%% TABLE style
+\RequirePackage{caption}
+\RequirePackage{subcaption}
+\RequirePackage{booktabs} % for Table
+
+%% LIST
+\RequirePackage{enumerate}
+% \RequirePackage{enumitem} % Cho phép thay đổi kí hiệu của list
+
+%%%%%%%%%%%%%%%%%%%%%
+%% BIBLIOGRAPHY style
+
+%% MORE http://www.khirevich.com/latex/bibliography/
+\PassOptionsToPackage{
+	% hyperref=true,
+	% url=false,
+	% isbn=false,
+	backref=true,
+	% citereset=chapter,
+	% maxcitenames=3,
+	% maxbibnames=100,
+	% block=none,
+	backend=biber,
+	style=ieee,
+	% style=alphabetic,
+	% sorting=none
+}{biblatex}
+\RequirePackage{biblatex}
+
+%% Easily spotting overfull hboxes in the document
+%% To easily find the location of overfull hbox in your document,
+%% you can make latex add a black bar where a line is too wide:
+%\overfullrule=2cm
+
+%%%%%%%%%%%%%%%%%%%%%
+%% HEADER styles
+\RequirePackage{fancyhdr}
+%\RequirePackage{fancybox} % Tạo khung box
+\RequirePackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
+
+% \titleformat{\chapter}
+% 	{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter.}{20pt}{\huge}
+
+%% One way
+% \setlength{\headheight}{15pt}
+\pagestyle{fancy}
+% \renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+% \renewcommand{\sectionmark}[1]{\markright{#1}{}}
+% \fancyhf{}
+% \fancyhead[LE,RO]{\thepage}
+% \fancyhead[RE]{\textbf{\textit{\nouppercase{\leftmark}}}}
+% \fancyhead[LO]{\textbf{\textit{\nouppercase{\rightmark}}}}
+
+%% Another way
+% \fancypagestyle{plain}{ %
+% 	% \fancyhf{} % remove everything
+% 	\renewcommand{\headrulewidth}{0.4pt} % remove header lines by set to 0
+% 	\renewcommand{\footrulewidth}{0.4pt}
+% }
+
+\fancyhf{}
+\lhead{\footnotesize\nouppercase\leftmark}
+\rhead{\footnotesize\nouppercase\rightmark}
+\cfoot[C]{\footnotesize\thepage}
+
+%makes available the commands \proof, \qedsymbol and \theoremstyle
+\RequirePackage{amsthm}
+
+%%%%%%%%%%%%%
+%% GLOSSARIES
+%%%%%%%%%%%%%
+
+\PassOptionsToPackage{
+	nonumberlist,
+	nopostdot,
+	nogroupskip,
+	%xindy,
+	toc
+}{glossaries}
+
+\RequirePackage{glossaries}
+\RequirePackage{glossary-superragged}
+
+%%%%%%%%%%%%
+%% HYPERLINK
+%%%%%%%%%%%%
+
+\PassOptionsToPackage{
+	% colorlinks=true,
+	% allcolors=red,
+	unicode,
+}{hyperref}
+\RequirePackage{hyperref}
+
+\PassOptionsToPackage{
+	% all,
+}{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
+% \RequirePackage{hypcap}
+
+%%%%%%%%%%%%%%%%%%
+%% REFERENCE style
+\RequirePackage{cleveref} % Use see~\Cref{fig:foo} instead of see Figure~\ref{fig:foo}.
+\emergencystretch=1em % for resolve overfull References
+
+%%%%%%%%%%%%%%%%%%%%%%
+%% Source Code Listing
+%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{listings}
+
+\PassOptionsToPackage{
+	% outputdir=builddir,
+	% cache=false,
+}{minted}
+\RequirePackage{minted}
+\usemintedstyle{vs}
+
+\renewcommand\listingscaption{Đoạn code}
+
+% \renewcommand{\lstlistingname}{Đoạn code}% Listing -> Algorithm
+% \renewcommand{\lstlistlistingname}{Danh sách các \lstlistingname}% List of Listings -> List of Algorithms
+
+%Ruler
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+%Lemma definition and lemma counter
+% \newtheorem{lemma}{Lemma}[section]
+
+%Definition counter
+% \theoremstyle{definition}
+% \newtheorem{definition}{Definition}[section]
+
+%Corolary counter
+% \newtheorem{corolary}{Corolary}[section]
+
+%Commands for naturals, integers, topology, hull, Ball, Disc, Dimension, boundary and a few more
+% \newcommand{\E}{{\mathcal{E}}}
+% \newcommand{\F}{{\mathcal{F}}}
+% \newcommand{\T}{{\mathcal{T}}}
+% \newcommand{\Bs}{{\mathcal{B}}}
+% \newcommand{\R}{{\mathbb{R}}}
+% \newcommand{\Q}{{\mathbb{Q}}}
+% \newcommand{\Z}{{\mathbb{Z}}}
+% \newcommand{\Nt}{{\mathbb{N}}}
+% \newcommand{\B}{{\mathbf{B}}}
+% \renewcommand{\S}{{\mathbf{S}}}
+% \newcommand{\K}{{\mathfrak{C}}}
+% \newcommand{\N}{{\mathfrak{N}}}
+% \newcommand{\I}{{\mathbf{I}}}
+% \newcommand{\dime}{{\rm dim}\,}
+% \newcommand{\est}{{\rm Est}\,}
+% \newcommand{\inte}{{\rm int}\,}
+% \newcommand{\conv}{{\rm conv}\,}
+% \renewcommand{\max}{{\rm sup\,}}
+% \newcommand{\diam}{{\rm di\acute{a}m\,}}
+% \newcommand{\leyenda}[1]{\caption{{\small \textsf{#1}}}}
+% \renewcommand{\inf}{{\rm \acute{i}nf}\,}
+
+%Example cenvironment
+% \theoremstyle{remark}
+% \newtheorem{examle}{Example}
+
+%Example counter
+% \newcommand{\reiniciar}{\setcounter{example}{0}}
+
+%% Font settings
+
+\newcommand{\titlesize}{\fontsize{18pt}{23pt}\selectfont}
+\newcommand{\subtitlesize}{\fontsize{16pt}{21pt}\selectfont}
+
+\newcommand{\mychapter}[1]{
+	\chapter*{#1}
+	\addcontentsline{toc}{chapter}{#1}
+}

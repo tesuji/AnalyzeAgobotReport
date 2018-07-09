@@ -1,82 +1,34 @@
 % SEE MORE : https://en.wikibooks.org/wiki/LaTeX/Document_Structure
 \documentclass[12pt,a4paper,fleqn]{report}
 \usepackage[top=3cm, bottom=3.5cm, left=3.5cm, right=2cm] {geometry} % Canh lề trang
-\usepackage[utf8]{vietnam}
-%% Useful packages
-\usepackage{enumerate}
-\usepackage{enumitem} % Cho phép thay đổi kí hiệu của list
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{xcolor}
 
-\usepackage{amsthm} % Cho phép thêm các môi trường định nghĩa
-
-\usepackage[
-	% colorlinks=true,
-	% allcolors=red,
-	unicode
-]{hyperref}
-
-\usepackage{booktabs} % for Table
-\emergencystretch=1em
+%% Custom style
+\usepackage{tcpstyle}
 
 \usepackage{times} % Chọn font Time New Romans
-\usepackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
 % \usepackage{array} % Tạo bảng array
-% \usepackage{enumitem} % Cho phép thay đổi kí hiệu của listfont Time New Romans
-
 %\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
 \usepackage{chngcntr} % Dùng để thiết lập lại cách đánh số caption,..
-
 % \usepackage{multirow} % Merge cells
-
-\usepackage[
-	backend=biber,
-	style=ieee
-]{biblatex} % Giúp chèn tài liệu tham khảo
-\addbibresource{bibliography.bib}
-
-%% For commenting out slow-rendering
-\usepackage{comment}
-
-%% where is your images
-\graphicspath{ {figures/} }
-
-\usepackage[
-	nonumberlist,
-	nopostdot,
-	nogroupskip,
-	%xindy,
-	toc
-]{glossaries}
-
-\usepackage{glossary-superragged}
-\setglossarystyle{superraggedheaderborder}
-
-\makeglossaries
-% \makenoidxglossaries
-\input{glossary/main} % Load this package after `hyperref`
 
 \usepackage{setspace}
 \usepackage{parskip}
 
-\usepackage{fancyhdr} % Cho phép tùy biến header và footer
-% \usepackage{fancybox} % Tạo khung box
-\pagestyle{fancy}
+%% For commenting out slow-rendering
+\usepackage{comment}
 
-% \fancyhf{}
-\rhead{\footnotesize\nouppercase\rightmark} % Bên phải header: tên section
-\lhead{\footnotesize\nouppercase\leftmark} % Bên trái header: tên chapter
-\cfoot{\footnotesize\thepage} % Giữa footer: số trang
+\addbibresource{bibliography.bib}
 
-\def \TITLE{Phân tích biến thể Botnet Agobot}
-\def \AUTHOR{Trần Cao Pháp, Nguyễn Nhật Tân}
-\def \SUBJECT{Analyze Agobot Botnet variants}
+%% where is your images
+\graphicspath{{images/}}
 
-\newcommand{\titlesize}{\fontsize{18pt}{23pt}\selectfont}
-\newcommand{\subtitlesize}{\fontsize{16pt}{21pt}\selectfont}
+\makeglossaries{}
+% \makenoidxglossaries
+\input{glossary/glossary} % Load this package after `hyperref`
+
+\def\TITLE{Phân tích biến thể Botnet Agobot}
+\def\AUTHOR{Trần Cao Pháp, Nguyễn Nhật Tân}
+\def\SUBJECT{Analyze Agobot Botnet variants}
 
 %% More in https://www.sharelatex.com/learn/Sections_and_chapters
 \titlespacing{\chapter}
@@ -119,13 +71,6 @@
 	urlcolor=cyan           % color of external links
 }
 
-\usepackage[
-%  all
-]{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
-
-\theoremstyle{definition}
-\newtheorem{example}{Ví dụ}[chapter] % Định nghĩa môi trường ví dụ
-
 \renewcommand{\baselinestretch}{1.5}
 \setlength{\mathindent}{0cm}
 % Paragraph Indentation
@@ -134,33 +79,13 @@
 
 % \usepackage{showframe}
 
-\usepackage{minted}
-\usemintedstyle{vs}
-
 \begin{document}
 
 	%\begin{comment}
 	\newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
 	\input{./cover.tex}
-	\restoregeometry
+	\restoregeometry{}
 	%\end{comment}
-
-	\chapter*{LỜI CẢM ƠN}
-	\addcontentsline{toc}{chapter}{LỜI CẢM ƠN}
-Để có thể hoàn thành đồ án chuyên ngành một cách hoàn chỉnh nhất, nhóm em đã
-nhận được rất nhiều sự hướng dẫn nhiệt tình của thầy Phạm Văn Hậu, cũng như từ sự hỗ
-trợ của rất nhiều bạn bè trong thời gian hoàn thiện. Vì vậy, tụi em xin phép được gửi lời
-cảm ơn chân thành nhất.
-
-Đầu tiên, nhóm em xin chân thành cảm ơn và bày tỏ lòng biết ơn đến thầy Phạm Văn
-Hậu, thầy đã tận tình chỉ bảo, hướng dẫn và động viên nhóm em để tụi em có thể hoàn
-thành khóa luận một cách tốt đẹp nhất. Tôi xin gởi đến thầy những lời tri ân nhất đối với
-những điều mà thầy đã dành cho tụi em.
-
-Sau cùng, nhóm xin kính chúc toàn thể quý thầy cô trong Khoa Mạng máy tính và
-Truyền thông và thầy Phạm Văn Hậu luôn dồi dào sức khỏe, sự nhiệt huyết và thành
-công trong cuộc sống cũng như trong sứ mệnh truyền đạt kiến thức cho các thế hệ trẻ mai
-sau.
 
 	\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
 	\setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
@@ -169,7 +94,11 @@ sau.
 		% \begin{comment}
 		\pagenumbering{roman}
 		%\cleardoublepage
-		\phantomsection
+		\phantomsection{}
+
+		\pagestyle{plain}
+
+		\include{chapters/thanks}
 
 		\hypersetup{
 			hidelinks,
@@ -192,23 +121,22 @@ sau.
 		% \renewcommand*{\acronymname}{Danh sách từ viết tắt}
 		% \renewcommand*{\entryname}{Tiếng Anh}
 		% \renewcommand*{\descriptionname}{Tiếng Việt}
-		\glsaddall
-		\printglossaries
+		\glsaddall{}
+		\printglossaries{}
 		% \end{comment}
 	}
 	\clearpage
 
-	\input{chapters/intro}
+	\include{chapters/intro}
 
 	\pagenumbering{arabic}
-	\input{chapters/chapter1}
-	\input{chapters/chapter2}
+	\include{chapters/01}
+	\include{chapters/02}
 
 \clearpage
-\phantomsection % Requires hyperref package
-% \addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\phantomsection{} % Requires hyperref package
 \nocite{*} % Show all Bib-entries
-%\pagestyle{plain}
+\pagestyle{plain}
 \printbibliography[
 	heading=bibintoc,
 ]

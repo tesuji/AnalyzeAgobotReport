@@ -6,22 +6,19 @@ Agobot sao chép chính nó vào thư mục System của hệ thống dưới t�
 \begin{table}[ht!]
 	\centering
 	\scriptsize
-	\begin{tabular}{l l}
-		\toprule
-		\textbf{Registry Key} &
-		\textbf{Value} \\
-		\midrule
-		\texttt{HKEY\_LOCAL\_MACHINE\textbackslash Software\textbackslash Microsoft\textbackslash Windows\textbackslash CurrentVersion\textbackslash Run}
-		 & stone = "stone.exe" \\
-		\texttt{HKEY\_LOCAL\_MACHINE\textbackslash Software\textbackslash Microsoft\textbackslash Windows\textbackslash CurrentVersion\textbackslash RunServices}
-		 & stone = "stone.exe" \\
-		 \bottomrule
-		\end{tabular}
+	\begin{tabular}{l l} \toprule
+		\textbf{Registry Key} & \textbf{Value} \\ \midrule
+		\verb|HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run|
+			& stone = ``stone.exe'' \\
+		\verb|HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunServices|
+			& stone = ``stone.exe'' \\ \bottomrule
+	\end{tabular}
 \end{table}
 
 \section{Phương thức lan truyền qua mạng}
 
 Quét mạng và cố gắng lây lan bằng cách khai thác các lỗ hổng sau:
+
 \begin{itemize}
 \item \href{http://www.microsoft.com/technet/security/bulletin/MS03-007.mspx}{Microsoft IIS WebDAV Remote Compromise Vulnerability}
 \item \href{http://www.microsoft.com/technet/security/bulletin/MS03-026.mspx}{Microsoft Remote Procedure Call (RPC) Distrubuted Component Object Model (DCOM) Vulnerability}
@@ -114,54 +111,16 @@ Passwords:
 \section{Hành vi Backdoor hoặc Trojan}
 Kết nối với máy chủ Internet Relay Chat (IRC) \texttt{211.105.62.79}, trên cổng TCP 6667 để chờ lệnh từ kẻ tấn công từ xa.
 
-Ngăn chặn hệ thống đã bị xâm nhập kết nối với máy chủ cập nhật và các trang web liên quan đến bảo mật khác bằng cách thêm phần sau vào tệp HOSTS của máy chủ \ref{code:hosts}:
+Ngăn chặn hệ thống đã bị xâm nhập kết nối với máy chủ cập nhật và các trang web liên quan đến bảo mật khác bằng cách thêm phần sau vào tệp HOSTS của máy chủ (Xem mẫu code~\ref{code:hosts}).
+
 \begin{listing}[ht]
-	\caption{Danh sách được thêm vào file HOSTS}
-	\label{code:hosts}
-	\begin{minted}[
+\caption{Danh sách các tên miền được thêm vào file HOSTS}\label{code:hosts}
+\inputminted[
 	frame=lines,
 	framesep=2mm,
 	baselinestretch=1.2,
 	fontsize=\scriptsize
-	]{text}
-127.0.0.1 www.symantec.com
-127.0.0.1 securityresponse.symantec.com
-127.0.0.1 symantec.com
-127.0.0.1 www.sophos.com
-127.0.0.1 sophos.com
-127.0.0.1 www.mcafee.com
-127.0.0.1 mcafee.com
-127.0.0.1 liveupdate.symantecliveupdate.com
-127.0.0.1 www.viruslist.com
-127.0.0.1 viruslist.com
-127.0.0.1 viruslist.com
-127.0.0.1 f-secure.com
-127.0.0.1 www.f-secure.com
-127.0.0.1 kaspersky.com
-127.0.0.1 www.avp.com
-127.0.0.1 www.kaspersky.com
-127.0.0.1 avp.com
-127.0.0.1 www.networkassociates.com
-127.0.0.1 networkassociates.com
-127.0.0.1 www.ca.com
-127.0.0.1 ca.com
-127.0.0.1 mast.mcafee.com
-127.0.0.1 my-etrust.com
-127.0.0.1 www.my-etrust.com
-127.0.0.1 download.mcafee.com
-127.0.0.1 dispatch.mcafee.com
-127.0.0.1 secure.nai.com
-127.0.0.1 nai.com
-127.0.0.1 www.nai.com
-127.0.0.1 update.symantec.com
-127.0.0.1 updates.symantec.com
-127.0.0.1 us.mcafee.com
-127.0.0.1 liveupdate.symantec.com
-127.0.0.1 customer.symantec.com
-127.0.0.1 rads.mcafee.com
-127.0.0.1 trendmicro.com
-127.0.0.1 www.trendmicro.com
-\end{minted}
+]{text}{listings/_etc_hosts}
 \end{listing}
 
 Cố gắng chấm dứt một số tiến trình nhất định, gồm một số tiến trình liên quan đến bảo mật, chẳng hạn như:
