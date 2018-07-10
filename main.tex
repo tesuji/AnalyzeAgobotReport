@@ -7,7 +7,6 @@
 
 \usepackage{times} % Chọn font Time New Romans
 % \usepackage{array} % Tạo bảng array
-%\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
 \usepackage{chngcntr} % Dùng để thiết lập lại cách đánh số caption,..
 % \usepackage{multirow} % Merge cells
 
@@ -71,21 +70,26 @@
 	urlcolor=cyan           % color of external links
 }
 
+%\usepackage{caption} % \captionof https://tex.stackexchange.com/q/12428/89601
+
+\usepackage{indentfirst} % Thụt đầu dòng ở dòng đầu tiên trong đoạn
 \renewcommand{\baselinestretch}{1.5}
 \setlength{\mathindent}{0cm}
-% Paragraph Indentation
-\setlength{\parindent}{0pt}
 \everymath{\displaystyle}
+% Paragraph Indentation
+\setlength{\parindent}{12pt}
 
 % \usepackage{showframe}
 
-\begin{document}
+\theoremstyle{definition}
+\newtheorem{exmp}{Ví dụ}[section]
 
-	%\begin{comment}
+% \includeonly{chapters/01}
+
+\begin{document}
 	\newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
 	\input{./cover.tex}
 	\restoregeometry{}
-	%\end{comment}
 
 	\setcounter{secnumdepth}{3} % Cho phép subsubsection trong report
 	\setcounter{tocdepth}{3} % Chèn subsubsection vào bảng mục lục
@@ -123,15 +127,16 @@
 		% \renewcommand*{\descriptionname}{Tiếng Việt}
 		\glsaddall{}
 		\printglossaries{}
-		% \end{comment}
+		%\end{comment}
 	}
 	\clearpage
 
 	\include{chapters/intro}
 
+	%% Body of thesis starts %%
 	\pagenumbering{arabic}
 	\include{chapters/01}
-	\include{chapters/02}
+	%\include{chapters/02}
 
 \clearpage
 \phantomsection{} % Requires hyperref package

@@ -53,6 +53,7 @@
 %% HEADER styles
 \RequirePackage{fancyhdr}
 %\RequirePackage{fancybox} % Tạo khung box
+\PassOptionsToPackage{compact}{titlesec} % Thu gon chapter title
 \RequirePackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
 
 % \titleformat{\chapter}
@@ -68,12 +69,12 @@
 % \fancyhead[RE]{\textbf{\textit{\nouppercase{\leftmark}}}}
 % \fancyhead[LO]{\textbf{\textit{\nouppercase{\rightmark}}}}
 
-%% Another way
-% \fancypagestyle{plain}{ %
-% 	% \fancyhf{} % remove everything
-% 	\renewcommand{\headrulewidth}{0.4pt} % remove header lines by set to 0
-% 	\renewcommand{\footrulewidth}{0.4pt}
-% }
+%% Only to plain style
+\fancypagestyle{plain}{
+	\fancyhf{} % remove everything
+	\renewcommand{\headrulewidth}{0pt} % remove header lines by set to 0
+ 	\renewcommand{\footrulewidth}{0pt}
+}
 
 \fancyhf{}
 \lhead{\footnotesize\nouppercase\leftmark}
@@ -101,17 +102,20 @@
 %%%%%%%%%%%%
 %% HYPERLINK
 %%%%%%%%%%%%
+\PassOptionsToPackage{obeyspaces}{url}
+\RequirePackage{url}
 
 \PassOptionsToPackage{
 	% colorlinks=true,
 	% allcolors=red,
+	breaklinks, % Problems with long caption and \listoffigures or long title
 	unicode,
 }{hyperref}
 \RequirePackage{hyperref}
 
-\PassOptionsToPackage{
-	% all,
-}{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
+% \PassOptionsToPackage{
+% 	all,
+% }{hypcap} % Cho phép tham chiếu chính xác đến hình ảnh và bảng biểu
 % \RequirePackage{hypcap}
 
 %%%%%%%%%%%%%%%%%%
@@ -125,16 +129,23 @@
 \RequirePackage{listings}
 
 \PassOptionsToPackage{
-	% outputdir=builddir,
+	chapter, % count with chapter: 1.1, 1.2 instead of just 1, 2, 3, ...
+	% outputdir=builddir, % The -output-directory command-line options cause problems for minted
 	% cache=false,
+	draft=true, % NOT using Pygments for faster compiling
 }{minted}
 \RequirePackage{minted}
 \usemintedstyle{vs}
 
-\renewcommand\listingscaption{Đoạn code}
+\setminted[cpp]{
+	frame=lines,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\tiny
+}
 
-% \renewcommand{\lstlistingname}{Đoạn code}% Listing -> Algorithm
-% \renewcommand{\lstlistlistingname}{Danh sách các \lstlistingname}% List of Listings -> List of Algorithms
+\renewcommand{\listingscaption}{Đoạn mã}
+%\renewcommand{\listoflistingscaption}{Danh sách các \listingscaption}
 
 %Ruler
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}

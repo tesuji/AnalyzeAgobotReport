@@ -59,17 +59,7 @@ Agobot có hệ thống lệnh và điều khiển là một trích xuất của
 Giao thức được dùng để thiếp lập kết nối giữa hệ thống bị xâm phạm đến kênh điều khiển là IRC chuẩn.
 Còn ngôn ngữ lệnh gồm cách lệnh IRC chuẩn và các lệnh dành riêng của nó.
 
-Một phần ngôn ngữ lệnh được thể hiện trong Bảng~\ref{table:botcmd}
-(tham khảo~\cite{lurhq} để xem danh sách lệnh đầy đủ hơn).
-Tập lệnh bao gồm các chỉ thị yêu cầu bot thực hiện một chức năng cụ thể,
-ví dụ: \texttt{bot.open} mở một tệp cụ thể trên máy chủ.
-Các biến điều khiển (Bảng~\ref{table:cvar_set}) được sử dụng trong lệnh \texttt{cvar.set} để bật / tắt
-các tính năng hoặc thao tác trường ảnh hưởng đến phương thức hoạt động,
-ví dụ: \verb|ddos_max_threads| thiết đặt số luồng tối đa dùng để làm ngập máy chủ cụ thể.
-
-Xem đoạn code~\ref{code:cvar_set} và đoạn code~\ref{code:botcmd} để tìm hiểu thêm.
-
-\begin{table}[ht!]
+\begin{table}[ht]
 	\caption{Các ``biến'' làm tham số cho lệnh \texttt{cvar.set}.}\label{table:cvar_set}
 	\centering
 	\footnotesize
@@ -119,7 +109,7 @@ Xem đoạn code~\ref{code:cvar_set} và đoạn code~\ref{code:botcmd} để t�
 	\end{tabular}
 \end{table}
 
-\begin{table}[ht!]
+\begin{table}[ht]
 	\caption{Một phần ngôn ngữ lệnh và điều khiển của Agobot.}\label{table:botcmd}
 	\centering
 	\footnotesize
@@ -151,32 +141,35 @@ Xem đoạn code~\ref{code:cvar_set} và đoạn code~\ref{code:botcmd} để t�
 	\end{tabular}
 \end{table}
 
+Một phần ngôn ngữ lệnh được thể hiện trong Bảng~\ref{table:botcmd}
+(tham khảo~\cite{lurhq} để xem danh sách lệnh đầy đủ hơn).
+Tập lệnh bao gồm các chỉ thị yêu cầu bot thực hiện một chức năng cụ thể,
+ví dụ: \texttt{bot.open} mở một tệp cụ thể trên máy chủ.
+Các biến điều khiển (Bảng~\ref{table:cvar_set}) được sử dụng trong lệnh \texttt{cvar.set}
+để bật/tắt các tính năng hoặc thao tác trường ảnh hưởng đến phương thức hoạt động,
+ví dụ:
+\verb|ddos_max_threads| thiết đặt số luồng tối đa dùng để làm ngập máy chủ cụ thể.
+
+Xem đoạn mã~\ref{code:cvar_set} và đoạn mã~\ref{code:botcmd} để tìm hiểu thêm về các lệnh điều khiển từ xa.
+
+Một ví dụ về lệnh \texttt{bot.command} (Đoạn mã~\ref{code:bot_command}) --
+lệnh này dùng để thực thi môt lệnh tuỳ ý với hàm \texttt{system()} (dòng 14).
+Nếu \texttt{system} trả về giá trị khác $-1$,
+hàm sẽ dùng IRC để thông báo về việc thực thi thành công.
+
 \begin{listing}[ht]
-\caption{Đoạn code định nghĩa các biến để điều khiển bot (thuộc file \texttt{bot.cpp})}\label{code:cvar_set}
-\inputminted[
-	frame=lines,
-	framesep=2mm,
-	baselinestretch=1.2,
-	fontsize=\tiny
-]{cpp}{./listings/var_bot.cpp}
+\caption{Đoạn code định nghĩa các biến để điều khiển bot (thuộc file \textbf{bot.cpp})}\label{code:cvar_set}
+\inputminted{cpp}{./listings/var_bot.cpp}
 \end{listing}
 
 \begin{listing}[ht]
-\caption{Các lệnh tương ứng trong mã nguồn Phatbot (thuộc file \texttt{bot.cpp})}\label{code:botcmd}
-\inputminted[
-	frame=lines,
-	framesep=2mm,
-	baselinestretch=1.2,
-	fontsize=\tiny
-]{cpp}{./listings/botcmd_bot.cpp}
+\caption{Các lệnh điều khiển từ xa trong mã nguồn Phatbot (thuộc file \textbf{bot.cpp})}\label{code:botcmd}
+\inputminted{cpp}{./listings/botcmd_bot.cpp}
 \end{listing}
 
 \begin{listing}[ht]
-\caption{Một ví dụ về lệnh \texttt{bot.command} (trong hàm \texttt{CBot::HandleCommand} thuộc file \texttt{bot.cpp})}\label{code:bot_command}
+\caption{Một ví dụ về lệnh \texttt{bot.command} (trong hàm \texttt{CBot::HandleCommand} thuộc file \textbf{bot.cpp})}\label{code:bot_command}
 \inputminted[
-	frame=lines,
-	framesep=2mm,
-	baselinestretch=1.2,
 	fontsize=\footnotesize,
 	xleftmargin=20pt,
 	linenos,
@@ -195,23 +188,7 @@ nhưng đa phần lưu lượng botnet vẫn có thể được xác định th�
 cách chống các tấn công nguy hiểm khác,
 để vô hiệu hóa phần mềm chống vi-rút và thu thập thông tin nhạy cảm.
 
-Tập các tính năng điều khiển máy chủ được cung cấp trong Agobot là khá đầy đủ (Bảng~\ref{table:botctrl}).
-Các lệnh này bao gồm:
-
-\begin{itemize}
-\item Các lệnh để bảo mật hệ thống, ví dụ như đóng các cổng NetBIOS chia sẻ,
-	vá cho các lỗ hổng phổ biến như RPC-DCOM (Blaster), v.v.
-\item Nhiều lệnh để thu thập thông tin nhạy cảm bao gồm email
-	địa chỉ, cdkeys, mật khẩu AOL, mật khẩu Paypal, v.v.
-\item Lệnh \textbf{pctrl} để liệt kê các tiến trình đang chạy trên máy chủ và
-	tiêu diệt các tiến trình cụ thể.
-\item Lệnh \textbf{inst} để thêm hoặc xóa các mục tự động chạy cùng hệ thống (autostart).
-\item Giám sát bàn phím và mạng dựa trên pcap.
-\item Truy cập Windows Registry từ xa.
-\item Kiểm soát hệ thống tập tin cục bộ, bao gồm khả năng tải xuống và thực thi.
-\end{itemize}
-
-\begin{table}[ht!]
+\begin{table}[ht]
 	\caption{Ngôn ngữ điều khiển máy chủ Agobot.}\label{table:botctrl}
 	\centering
 	\footnotesize
@@ -239,18 +216,113 @@ Các lệnh này bao gồm:
 	\end{tabular}
 \end{table}
 
+Tập các tính năng điều khiển máy chủ được cung cấp trong Agobot là khá đầy đủ (Bảng~\ref{table:botctrl}).
+Các lệnh này bao gồm:
+
+\begin{itemize}
+\item Các lệnh để bảo mật hệ thống, ví dụ như đóng các cổng NetBIOS chia sẻ,
+	vá cho các lỗ hổng phổ biến như RPC-DCOM (Blaster), v.v.
+\item Nhiều lệnh để thu thập thông tin nhạy cảm bao gồm email
+	địa chỉ, cdkeys, mật khẩu AOL, mật khẩu PayPal, v.v.
+\item Lệnh \textbf{pctrl} để liệt kê các tiến trình đang chạy trên máy chủ và
+	tiêu diệt các tiến trình cụ thể.
+\item Lệnh \textbf{inst} để thêm hoặc xóa các mục tự động chạy cùng hệ thống (autostart).
+\item Giám sát bàn phím và mạng dựa trên pcap (trong file \textbf{sniffer.cpp}).
+\item Truy cập Windows Registry từ xa.
+\item Kiểm soát hệ thống tập tin cục bộ, bao gồm khả năng tải xuống và thực thi.
+\end{itemize}
+
+\begin{exmp}
+Lệnh \texttt{harvest.cdkeys} trả về một danh sách các mã kích hoạt
+bằng cách định nghĩa một các game và khoá registry tương ứng chứa
+mã kích hoạt game (đoạn mã~\ref{code:game_cdkeys}),
+sau đó dùng hàm \texttt{CHarvest\_CDKeys::HandleCommand()}
+để truy vấn và trả về kết quả (đoạn mã~\ref{code:handle_cdkeys}).
+\end{exmp}
+
+\begin{listing}[ht]
+	\caption{Các game và khoá Registry tương ứng chứa mã kích hoạt (thuộc file \textbf{harvest\_cdkeys.cpp})}\label{code:game_cdkeys}
+	\inputminted{cpp}{./listings/games-harvest_cdkeys.cpp}
+\end{listing}
+
+\begin{listing}[ht]
+	\caption{Truy vấn mã kích hoạt qua khoá Registry và trả về kết quả nếu có (trong hàm \texttt{CHarvest\_CDKeys::HandleCommand} thuộc file \textbf{harvest\_cdkeys.cpp})}\label{code:handle_cdkeys}
+	\inputminted{cpp}{./listings/handle-harvest_cdkeys.cpp}
+\end{listing}
+
+\begin{exmp}
+Lệnh \texttt{pctrl.killpid} -- dừng tiến trình được chỉ định -- dùng hàm \texttt{TerminateProcess()}
+để ngưng tiến trình đang thực thi (đoạn mã~\ref{code:killpid}).
+\end{exmp}
+
+\begin{listing}[ht]
+	\caption{Ngừng tiến trình đang thực thi qua lệnh \texttt{pctrl.killpid} (trong file \textbf{utility.cpp}).}\label{code:killpid}
+	\inputminted{cpp}{./listings/killpid-pctrl.cpp}
+\end{listing}
+
+\begin{exmp}
+Lệnh \texttt{inst.add} -- thêm vào mục tự khởi động cùng Windows --
+sử dụng hàm \texttt{RegCreateKeyEx()} (đoạn mã~\ref{code:add_autostart})
+để tạo khoá mới và dùng hàm \texttt{RegSetValueEx()} để ghi giá trị trên hai khoá Registry
+\path{HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run}
+và
+\texttt{RunServices}.
+\end{exmp}
+
+\begin{listing}[ht]
+	\caption{Thêm mục tự khởi động qua lệnh \texttt{inst.add} (trong file \textbf{installer.cpp}).}\label{code:add_autostart}
+	\inputminted{cpp}{./listings/add_autostart.cpp}
+\end{listing}
+
+\begin{exmp}
+File \textbf{keylogger.cpp}:
+Theo dõi bàn phím dựa trên lớp \texttt{CKeyLog} kế thừa từ lớp đại diện luồng \texttt{CThread}.
+Lớp này sử dụng các WinAPI như
+\texttt{GetForegroundWindow()},
+\texttt{GetWindowText()},
+\texttt{GetKeyState()}
+và
+\texttt{GetAsyncKeyState()}
+để theo dõi ký tự được gõ.
+\end{exmp}
+
+\begin{exmp}
+File \textbf{utility.cpp}:
+Khả năng tải xuống và thực thi dựa trên lớp \texttt{CDownloader} với các lệnh như
+\texttt{http.download} (tải một file qua http),
+\texttt{http.visit} (ghé thăm một trang web bất kỳ),
+\texttt{http.execute} (cập nhật bot qua địa chỉ http url)
+và
+\texttt{http.update} (thực thi file download được từ http url).
+Trong đó lệnh \texttt{http.visit} có thể được dùng để
+\href{https://en.wikipedia.org/wiki/Click_fraud}{giả mạo click chuột}.
+\end{exmp}
+
+\begin{exmp}
+File \textbf{nbscanner.cpp}: Cài đặt lớp \texttt{CScannerNetBios} để quét NetBIOS.
+Lớp này vét cạn mật khẩu NetBIOS dựa trên một số tên người dùng và mật khẩu
+thường dùng (đoạn code~\ref{code:up_netbios}).
+\end{exmp}
+
+\begin{listing}[ht]
+	\caption{Một số tên và mật khẩu được dùng để vét cạn NetBIOS (trong file \textbf{nbscanner.cpp}).}\label{code:up_netbios}
+	\inputminted{cpp}{./listings/upass_netbios.cpp}
+\end{listing}
+
+\begin{exmp}
+Quét và khai thác lỗ hỗng RPC-DCOM nhờ vào 2 file \textbf{dcomscanner.cpp} và \textbf{dcom2scanner.cpp}.
+Hai file này chứa các shellcode để thêm khai thác lỗ hỗng qua các cổng 135, 1025 và 445.
+Các shellcode được hàm khai thác \texttt{CScannerDCOM2::Exploit} sử dụng để thêm người dùng,
+mở cổng kết nối mới, v.v.
+\end{exmp}
+
 \section{Cơ chế lan truyền}
 Lan truyền là các cơ chế được sử dụng bởi các bot để tìm kiếm các máy chủ mới.
 Cơ chế lan truyền truyền thống bao gồm quét ngang đơn giản trên một cổng duy nhất
 trải dài một dải địa chỉ cho trước hoặc quét dọc một địa chỉ IP duy nhất trên nhiều cổng mạng cụ thể.
 Tuy nhiên, khi khả năng của botnet mở rộng, có khả năng là chúng sẽ áp dụng các phương pháp tuyên truyền tinh vi hơn
 
-Các cơ chế quét trong Agobot là tương đối đơn giản và không khác nhiều so với việc quét ngang và quét dọc.
-Việc quét của Agobot dựa trên khái niệm về phạm vi mạng (tiền tố mạng) được cấu hình trên các bot riêng lẻ.
-Khi được điều khiển, bot có thể quét trải dài một mạng hoặc chọn ngẫu nhiên các địa chỉ IP trong một dải địa chỉ.
-Tuy nhiên, bộ lệnh quét hiện tại không cung cấp phương thức để phân phối một cách hiệu quả không gian địa chỉ mục tiêu trong giữa các bot với nhau. Bảng~\ref{table:botprog} tóm tắt các lệnh quét trong Agobot.
-
-\begin{table}[ht!]
+\begin{table}[ht]
 	\caption{Các lệnh quét và lan truyền trong Agobot}
 	\label{table:botprog}
 	\centering
@@ -276,6 +348,21 @@ Tuy nhiên, bộ lệnh quét hiện tại không cung cấp phương thức đ�
 	\end{tabular}
 \end{table}
 
+Các cơ chế quét trong Agobot là tương đối đơn giản và không khác nhiều so với việc quét ngang và quét dọc.
+Việc quét của Agobot dựa trên khái niệm về phạm vi mạng (tiền tố mạng) được cấu hình trên các bot riêng lẻ.
+Khi được điều khiển, bot có thể quét trải dài một mạng hoặc chọn ngẫu nhiên các địa chỉ IP trong một dải địa chỉ.
+Tuy nhiên, bộ lệnh quét hiện tại không cung cấp phương thức để phân phối một cách hiệu quả không gian địa chỉ mục tiêu trong giữa các bot với nhau. Bảng~\ref{table:botprog} tóm tắt các lệnh quét trong Agobot.
+
+\begin{exmp}
+Lệnh \texttt{scan.addnetrange} sử dụng hàm \texttt{ParseNetRange()} để thêm phạm vi mạng từ
+địa chỉ IP và netmask cho trước (đoạn mã~\ref{code:netscan}).
+\end{exmp}
+
+\begin{listing}[ht]
+	\caption{Hàm scan.addnetrange (trong file \textbf{scanner.cpp}).}\label{code:netscan}
+	\inputminted{cpp}{./listings/netscan.cpp}
+\end{listing}
+
 \section{Phương thức khai thác và tấn công}
 Phương thức khai thác lổ hỗng gồm các phương pháp cụ thể để tấn công các lỗ hổng đã biết trên các hệ thống đích.
 Việc khai thác thường được kết hợp với việc quét để tìm kiếm mục tiêu.
@@ -288,20 +375,34 @@ Agobot có thể tự động lan truyền qua cửa sau được cài đặt tr
 Các khai thác trong phiên bản của Agobot mà chúng tôi đánh giá bao gồm:
 
 \begin{enumerate}
-\item Bộ quét Bagle\@: quét backdoor được mở ra do các biến thể Bagle trên cổng 2745.
-\item Bộ quét Dcom (1/2): quét lỗi tràn bộ đệm DCE-RPC nổi tiếng.
-\item Bộ quét MyDoom\@: quét các backdoor được để lại bởi các biến thể của sâu MyDoom trên cổng 3127.
-\item Bộ quét Dameware\@: quét các phiên bản tồn tại lỗ hỗng của công cụ quản trị mạng Dameware.
-\item Bộ quét NetBIOS\@: quét mật khẩu bằng cách vét cạn NetBIOS chia sẻ.
-\item Bộ quét Radmin: quét lỗi tràn bộ đệm Radmin.
-\item Bộ quét MS-SQL\@: quét vét cạn mật khẩu các máy chủ SQL mở.
-\item Mô-đun DDoS tổng quát: cho phép bảy loại tấn công từ chối dịch vụ đối với một máy chủ mục
-	tiêu gồm udp flood, syn flood, http flood, targa3, wonk flood, phat syn flood (?), icmp flood.
+\item Bộ quét Bagle (\textbf{baglescanner.cpp}):
+	quét backdoor được mở ra do các biến thể Bagle trên cổng 2745.
+\item Bộ quét Dcom (\textbf{dcom2scanner.cpp}):
+	quét lỗi tràn bộ đệm DCE-RPC nổi tiếng.
+\item Bộ quét MyDoom (\textbf{doomscanner.cpp}):
+	quét các backdoor được để lại bởi các biến thể của sâu MyDoom trên cổng 3127.
+\item Bộ quét Dameware (\textbf{dwscanner.cpp}):
+	quét các phiên bản tồn tại lỗ hỗng của công cụ quản trị mạng Dameware.
+\item Bộ quét NetBIOS (\textbf{nbscanner.cpp}):
+	quét mật khẩu bằng cách vét cạn NetBIOS chia sẻ.
+\item Bộ quét Radmin (\textbf{radminscanner.cpp}):
+	quét lỗi tràn bộ đệm Radmin.
+\item Bộ quét MS-SQL (\textbf{sqlscanner.cpp}):
+	quét vét cạn mật khẩu các máy chủ SQL mở.
+\item Mô-đun DDoS tổng quát (\textbf{ddos.cpp}):
+	cho phép bảy loại tấn công từ chối dịch vụ đối với một máy chủ mục tiêu gồm
+	udp flood,
+	syn flood,
+	http flood,
+	targa3,
+	wonk flood,
+	phat syn flood (?),
+	icmp flood.
 \end{enumerate}
 
 Danh sách các lệnh được sử dụng để kiểm soát các cuộc tấn công này được đưa ra trong Bảng~\ref{table:botattack}.
 
-\begin{table}[ht!]
+\begin{table}[ht]
 	\caption{Các lệnh tấn công DDos trong Agobot.}\label{table:botattack}
 	\centering
 	\footnotesize
@@ -322,6 +423,18 @@ Danh sách các lệnh được sử dụng để kiểm soát các cuộc tấn
 	\end{tabular}
 \end{table}
 
+Trong đó đối với lệnh tấn công \texttt{ddos.phatsyn} 
+(file \textbf{ddos.cpp} và \textbf{wonk.cpp}), 
+lệnh sử dụng lớp \texttt{CDDOSPhatWonkFlood}
+với hàm \texttt{SendPhatWonk()} quét \textbf{28} cổng để tìm cổng đang mở 
+và gửi 1 gói SYN theo sau là 1023 gói ACK để làm ngập 
+địa chỉ IP đích một cách liên tục (đoạn mã~\ref{code:phatwonk}).
+
+\begin{listing}[ht]
+	\caption{Hàm \texttt{SendPhatWonk()} được gọi bởi lệnh \texttt{ddos.phatsyn} (trong file \textbf{wonk.cpp}).}\label{code:phatwonk}
+	\inputminted{cpp}{./listings/phatwonk.cpp}
+\end{listing}
+
 \section{Phương thức phân phối malware}
 Các \gls{packer} (trình đóng gói) và \gls{encoder} (trình mã hóa shellcode) từ lâu đã được sử dụng
 trong phân phối phần mềm hợp pháp để nén và làm rối mã máy nhằm chống dịch ngược.
@@ -341,14 +454,16 @@ và có khả năng đa dạng hóa các dòng bit của kết quả.
 
 Agobot sử dụng một \gls{encoder} để làm rối \gls{assembly} và loại bỏ các byte null
 (mà kết thúc một chuỗi trong ngôn ngữ lập trình C) ra khỏi một chuỗi các lệnh x86.
-Như có thể thấy trong đoạn~\ref{code:encoder}, đoạn mã sử dụng khoá \textbf{XOR} với giá trị 0x98 rồi tiếp tục kiểm tra liệu kết quả có còn chứa kí tự \texttt{null}.
+Như có thể thấy trong đoạn~\ref{code:encoder}, 
+đoạn mã sử dụng khoá \textbf{XOR} với giá trị 0x98 rồi tiếp tục kiểm tra liệu kết quả xor với 
+shellcode còn chứa các kí tự có mã ASCII 0x5C, 0x00, 0x0A hoặc 0x0D.
 Nếu sai, nó tiếp tục thử các giá trị tiếp theo (0x99, 0x9a, \ldots) cho đến khi tìm được giá trị thích hợp.
 Giá trị tìm được này sẽ được sao chép vào shellcode tại vị trí \texttt{ENCODER\_OFFSET\_XORKEY}.
 
 Biện pháp này đánh bại hoặc ít nhất là làm phức tạp đáng kể việc phát hiện mã độc dựa trên chữ ký (MD5, SHA-1), \dots
 
 \begin{listing}[ht]
-\caption{Hàm mã hoá shellcode của Agobot (thuộc file \texttt{shellcode.cpp})}\label{code:encoder}
+\caption{Hàm mã hoá shellcode của Agobot (thuộc file \textbf{shellcode.cpp})}\label{code:encoder}
 \inputminted[
 	frame=lines,
 	framesep=2mm,
@@ -365,11 +480,37 @@ Agobot cung cấp việc \gls{obfuscation} một cách hạn chế.
 Agobot hỗ trợ 4 kịch bản mã hóa đa hình khác nhau:
 
 \begin{itemize}
-\item \verb|POLY_TYPE_XOR|,
-\item \verb|SWY_TYPE_SWAP| (hoán đổi các byte liên tiếp),
+\item \verb|POLY_TYPE_XOR| (mã hoá bằng phép XOR),
+\item \verb|POLY_TYPE_SWAP| (hoán đổi các byte liên tiếp),
 \item \verb|POLY_TYPE_ROR| (xoay phải),
 \item \verb|POLY_TYPE_ROL| (xoay trái).
 \end{itemize}
+
+Trong đó, hàm \texttt{DoPolymorph} (đoạn mã~\ref{code:poly}) (trong \textbf{polymorph.cpp}) có vai trò mã hoá đa hình file.
+Hàm này ánh xạ tập tin, tìm kiếm nơi phù hợp cho encoder và phần code,
+đặt encoder vào trong phần phù hợp đó,
+thiếp lập entrypoint (điểm bắt đầu của tệp thực thi)
+trỏ đến encoder,
+thiết lập cờ trong header để nhận diện được tệp đã mã hoá
+và cuối cùng lưu file xuống đĩa.
+và phần mã, tạo bộ mã hóa vào phần,
+đặt điểm vào trong tệp cho bộ mã hóa, đặt cờ trong
+tiêu đề để phát hiện các tệp đã được mã hóa và cuối cùng lưu tệp
+quay lại đĩa lưu trữ. 
+Mục đích là biến đổi file mỗi lần nó được lây lan để tránh né các chương trình chống vi-rút,
+khiến cho các chương trình chống vi-rút phải lây lan nó 
+mỗi lần chúng tìm thấy phiên bản mới của các file bị biến đổi.
+
+\newenvironment{code}{\captionsetup{type=listing}}{}
+\begin{code}
+\caption{Hàm đa hình \texttt{DoPolymorph} (trong \textbf{polymorph.cpp})}\label{code:poly}
+\inputminted[
+	frame=single,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\tiny
+]{cpp}{./listings/poly.cpp}
+\end{code}
 
 \section{Phương thức deception}
 
@@ -378,14 +519,24 @@ trên máy chủ đích (cơ chế này cũng được gọi là \texttt{rootkit
 
 \begin{itemize}
 \item Biện pháp để ẩn các tiến trình và tệp để người dùng không nhìn thấy.
-\item Các biện pháp kiểm tra và chống gỡ lỗi của các chương trình như OllyDebug, SoftIce và procdump.
+\item Các biện pháp kiểm tra và chống gỡ lỗi của các chương trình như 
+	OllyDebug, 
+	SoftIce 
+	và 
+	procdump.
 \item Kiểm tra ảo hoá VMWare nhằm cung cấp thông tin sai lệnh khi phân tích mã độc này.
-\item Tiêu diện các tiến trình của các ứng dụng chống virus phổ biến thông qua bằng cách chèn mã độc.
+\item Tiêu diện các tiến trình của các ứng dụng chống virus phổ biến thông qua cách chèn mã độc.
 \item Thay đổi danh mục DNS của máy chủ để khiến cho địa chỉ của các trang web chống vi-rút trỏ đến localhost.
-
 \end{itemize}
 
-Khi mà các biện pháp này được cải thiện thêm, việc phát hiện hệ thống bị xâm nhập sẽ trở nên khó khăn hơn và làm phức tạp
+Tất cả các cơ chế này phần lớp được cài đặt ở trong tập \textbf{utility.cpp}.
+Trong đó có các hàm \texttt{IsVMWare()} để kiểm tra có phải chạy trong máy ảo VMWare,
+hàm \texttt{AddHosts()} thêm trỏ danh mục các trang web chống vi-rút đến localhost,
+hàm \texttt{IsODBGLoaded()} kiểm tra trình gỡ lỗi OllyDbg, \dots
+Các hàm trên đều được gọi qua đối tượng của lớp \texttt{CDebugDetect}.
+
+Khi mà các biện pháp này được cải thiện thêm, 
+việc phát hiện hệ thống bị xâm nhập sẽ trở nên khó khăn hơn và làm phức tạp
 nhiệm vụ của hệ thống nhận diện rootkit và chương trình chống virus.
 
 % \section{Kết chương}
