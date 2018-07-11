@@ -377,14 +377,14 @@ Các khai thác trong phiên bản của Agobot mà chúng tôi đánh giá bao 
 \begin{enumerate}
 \item Bộ quét Bagle (\textbf{baglescanner.cpp}):
 	quét backdoor được mở ra do các biến thể Bagle trên cổng 2745.
-\item Bộ quét Dcom (\textbf{dcom2scanner.cpp}):
+\item Bộ quét Dcom (\textbf{dcom2scanner.cpp} và \textbf{dcom2scanner.cpp}):
 	quét lỗi tràn bộ đệm DCE-RPC nổi tiếng.
 \item Bộ quét MyDoom (\textbf{doomscanner.cpp}):
 	quét các backdoor được để lại bởi các biến thể của sâu MyDoom trên cổng 3127.
 \item Bộ quét Dameware (\textbf{dwscanner.cpp}):
 	quét các phiên bản tồn tại lỗ hỗng của công cụ quản trị mạng Dameware.
 \item Bộ quét NetBIOS (\textbf{nbscanner.cpp}):
-	quét mật khẩu bằng cách vét cạn NetBIOS chia sẻ.
+	quét vét cạn mật khẩu của NetBIOS chia sẻ.
 \item Bộ quét Radmin (\textbf{radminscanner.cpp}):
 	quét lỗi tràn bộ đệm Radmin.
 \item Bộ quét MS-SQL (\textbf{sqlscanner.cpp}):
@@ -503,7 +503,7 @@ mỗi lần chúng tìm thấy phiên bản mới của các file bị biến đ
 
 \newenvironment{code}{\captionsetup{type=listing}}{}
 \begin{code}
-\caption{Hàm đa hình \texttt{DoPolymorph} (trong \textbf{polymorph.cpp})}\label{code:poly}
+\caption{Hàm đa hình \texttt{DoPolymorph()} (trong \textbf{polymorph.cpp})}\label{code:poly}
 \inputminted[
 	frame=single,
 	framesep=2mm,
@@ -530,10 +530,47 @@ trên máy chủ đích (cơ chế này cũng được gọi là \texttt{rootkit
 \end{itemize}
 
 Tất cả các cơ chế này phần lớp được cài đặt ở trong tập \textbf{utility.cpp}.
-Trong đó có các hàm \texttt{IsVMWare()} để kiểm tra có phải chạy trong máy ảo VMWare,
-hàm \texttt{AddHosts()} thêm trỏ danh mục các trang web chống vi-rút đến localhost,
-hàm \texttt{IsODBGLoaded()} kiểm tra trình gỡ lỗi OllyDbg, \dots
+Trong đó có các hàm 
+\texttt{IsVMWare()} (đoạn mã~\ref{code:vmware})để kiểm tra có phải chạy trong máy ảo VMWare,
+hàm \texttt{AddHosts()} (đoạn mã~\ref{code:etc_hots}) thêm danh mục các trang web chống vi-rút trỏ đến localhost,
+hàm \texttt{IsODBGLoaded(), 
+IsSICELoaded(), 
+IsSoftIceNTLoaded()
+và
+IsBPX()} (đoạn mã~\ref{code:isdebug}) kiểm tra trình gỡ lỗi 
+OllyDbg, SoftIce
+và kiểm tra breakpoint~\dots~
 Các hàm trên đều được gọi qua đối tượng của lớp \texttt{CDebugDetect}.
+
+\begin{code}
+	\caption{Hàm phát hiện máy ảo VMWare (trong \textbf{utility.cpp})}\label{code:vmware}
+	\inputminted[
+	frame=single,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\tiny
+	]{cpp}{./listings/vmware.cpp}
+\end{code}
+
+\begin{code}
+	\caption{Hàm thêm mục vào file HOSTS  (trong \textbf{utility.cpp})}\label{code:etc_hots}
+	\inputminted[
+	frame=single,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\tiny
+	]{cpp}{./listings/add_hosts.cpp}
+\end{code}
+
+\begin{code}
+	\caption{Hàm phát hiện gỡ lỗi (trong \textbf{utility.cpp})}\label{code:isdebug}
+	\inputminted[
+	frame=single,
+	framesep=2mm,
+	baselinestretch=1.2,
+	fontsize=\tiny
+	]{cpp}{./listings/isdebug.cpp}
+\end{code}
 
 Khi mà các biện pháp này được cải thiện thêm, 
 việc phát hiện hệ thống bị xâm nhập sẽ trở nên khó khăn hơn và làm phức tạp

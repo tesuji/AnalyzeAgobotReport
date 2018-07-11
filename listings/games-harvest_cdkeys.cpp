@@ -21,7 +21,5 @@ items CDKeyList[] = {
    "SOFTWARE\\Electronic Arts\\EA GAMES\\Generals\\ergc",  ""},
   {"[Command and Conquer: Generals: Zero Hour: ", HKEY_LOCAL_MACHINE,
    "SOFTWARE\\Electronic Arts\\EA GAMES\\Command and Conquer Generals Zero Hour\\ergc", ""},
-
   /* ... OMMITED ... */
-
 };

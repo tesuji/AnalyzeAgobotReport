@@ -130,8 +130,12 @@
 		%\end{comment}
 	}
 	\clearpage
-
-	\include{chapters/intro}
+	{
+		\pagestyle{plain}
+		\fancyhf{}
+		\include{chapters/intro}
+	}
+	
 
 	%% Body of thesis starts %%
 	\pagenumbering{arabic}
